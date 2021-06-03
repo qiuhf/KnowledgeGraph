@@ -119,7 +119,7 @@ public class FindKNumOfOddTimes {
         return Optional.empty();
     }
 
-    public static Optional<Integer> verify(int[] arr, int kTime, int mTime) {
+    private static Optional<Integer> verify(int[] arr, int kTime, int mTime) {
         if (Objects.isNull(arr) || arr.length < 3) {
             throw new IllegalArgumentException("数组不能为空且长度必须大于2");
         }
@@ -147,7 +147,7 @@ public class FindKNumOfOddTimes {
         return Optional.empty();
     }
 
-    public static Optional<Integer> lookup1(int[] arr, int kTime, int mTime) {
+    private static Optional<Integer> lookup1(int[] arr, int kTime, int mTime) {
         if (Objects.isNull(arr) || arr.length < 3) {
             throw new IllegalArgumentException("数组不能为空且长度必须大于2");
         }
@@ -200,7 +200,7 @@ public class FindKNumOfOddTimes {
         return Optional.empty();
     }
 
-    public static int[] randomArray(int maxGroup, int range, int kTime, int mTime) {
+    private static int[] randomArray(int maxGroup, int range, int kTime, int mTime) {
         int kNum = randomNumber(range);
         // 真命天子出现次数,50%几率出现kTime,
         //  kTime = Math.random() < 0.5 ? kTime : (int) (Math.random() * (mTime - 1)) + 1;
