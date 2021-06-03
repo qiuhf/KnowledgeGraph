@@ -41,7 +41,7 @@ public class HelloVolatile {
 
     }
 
-    public void doSomeThing() {
+    private void doSomeThing() {
         System.out.println("begin");
         while (running) {
 

@@ -31,7 +31,6 @@ import java.util.concurrent.locks.ReentrantLock;
  * @since 2021-03-23
  **/
 public class ContainerByCondition<E> {
-    private final int maxSize = 16;
     private final ReentrantLock lock = new ReentrantLock();
     private final Condition producer = lock.newCondition();
     private final Condition consumer = lock.newCondition();
@@ -69,10 +68,11 @@ public class ContainerByCondition<E> {
 
     }
 
-    public void put(E e) throws InterruptedException {
+    private void put(E e) throws InterruptedException {
         this.lock.lock();
         try {
-            while (this.queue.size() == this.maxSize) {
+            int maxSize = 16;
+            while (this.queue.size() == maxSize) {
                 this.producer.await();
             }
 
@@ -84,8 +84,8 @@ public class ContainerByCondition<E> {
         }
     }
 
-    public E take() throws InterruptedException {
-        E e = null;
+    private E take() throws InterruptedException {
+        E e;
         this.lock.lock();
         try {
             while (this.queue.isEmpty()) {

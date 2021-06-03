@@ -67,7 +67,7 @@ public class ReadWriteLockDemo<T> {
         }
     }
 
-    public void read(Lock lock) {
+    private void read(Lock lock) {
         lock.lock();
         try {
             // 模拟读取操作

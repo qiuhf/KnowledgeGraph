@@ -16,8 +16,6 @@
 
 package com.qiuhaifeng.juc.thread;
 
-import lombok.SneakyThrows;
-
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -75,15 +73,23 @@ public class WhatIsThreadState {
     }
 
     private static class MyThread extends Thread {
-        @SneakyThrows
         @Override
         public void run() {
             synchronized (LOCK) {
                 if (!stop) {
-                    LOCK.wait();
+                    try {
+                        LOCK.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
-            Thread.sleep(2000);
+
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

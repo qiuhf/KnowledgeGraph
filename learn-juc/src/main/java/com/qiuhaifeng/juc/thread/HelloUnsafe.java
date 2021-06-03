@@ -55,7 +55,7 @@ public class HelloUnsafe {
     static class Xo {
         int index = 0;
 
-        public void dealWith() {
+        void dealWith() {
             System.out.println("dealWith ...");
         }
     }

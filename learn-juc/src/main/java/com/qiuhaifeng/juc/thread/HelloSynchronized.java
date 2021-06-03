@@ -29,12 +29,12 @@ public class HelloSynchronized {
     /**
      * 必须要加final, 防止object对象锁改变
      */
-    private static final Object object = new Object();
+    private static final Object OBJECT = new Object();
     private static int count = 0;
 
     public void objectLock() {
         // 任何线程要执行下面的代码，都必须要先拿到object锁
-        synchronized (object) {
+        synchronized (OBJECT) {
             count++;
             System.out.println(Thread.currentThread().getName() + " count = " + count);
         }

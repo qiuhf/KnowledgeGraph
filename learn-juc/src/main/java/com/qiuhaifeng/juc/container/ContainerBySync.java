@@ -29,7 +29,6 @@ import java.util.concurrent.TimeUnit;
  * @since 2021-03-23
  **/
 public class ContainerBySync<E> {
-    private final int maxSize = 16;
     private LinkedList<E> queue = new LinkedList<>();
 
     public static void main(String[] args) throws InterruptedException {
@@ -64,8 +63,9 @@ public class ContainerBySync<E> {
 
     }
 
-    public synchronized void put(E e) throws InterruptedException {
-        while (this.queue.size() == this.maxSize) {
+    private synchronized void put(E e) throws InterruptedException {
+        int maxSize = 16;
+        while (this.queue.size() == maxSize) {
             this.wait();
         }
 
@@ -74,7 +74,7 @@ public class ContainerBySync<E> {
         this.notifyAll();
     }
 
-    public synchronized E take() throws InterruptedException {
+    private synchronized E take() throws InterruptedException {
         while (this.queue.isEmpty()) {
             this.wait();
         }

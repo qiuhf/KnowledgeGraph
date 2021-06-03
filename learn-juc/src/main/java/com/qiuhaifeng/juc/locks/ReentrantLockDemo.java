@@ -69,7 +69,7 @@ public class ReentrantLockDemo {
     /**
      * 对interrupt()方法做出响应
      */
-    public void lockInterruptiblyDemo() throws InterruptedException {
+    private void lockInterruptiblyDemo() throws InterruptedException {
         Lock lock = new ReentrantLock();
         Thread thread1 = new Thread(() -> {
             lock.lock();
@@ -112,7 +112,7 @@ public class ReentrantLockDemo {
      * 可以根据tryLock的返回值来判定是否锁定
      * 也可以指定tryLock的时间，由于tryLock(time)抛出异常，所以要注意unclock的处理，必须放到finally中
      */
-    public void tryLockDemo() throws InterruptedException {
+    private void tryLockDemo() throws InterruptedException {
         Lock lock = new ReentrantLock();
         new Thread(() -> {
             lock.lock();
@@ -150,7 +150,7 @@ public class ReentrantLockDemo {
     /**
      * lock()进行锁定，lock()方法后面必须紧跟try{}finally{},避免死锁
      */
-    public void lockDemo() throws InterruptedException {
+    private void lockDemo() throws InterruptedException {
         Lock lock = new ReentrantLock();
         new Thread(() -> {
             lock.lock();
