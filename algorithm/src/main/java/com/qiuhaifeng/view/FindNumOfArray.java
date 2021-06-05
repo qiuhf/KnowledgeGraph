@@ -26,19 +26,23 @@ import java.util.Optional;
 
 /**
  * <pre>
- *   一个数组中，只有一种数出现了K次，其他数都出现了M次, M > 1，K > 0, K < M,找出K次数的数
- *   要求: 额外空间复杂度O(1)，时间复杂度O(N)
+ *   在数组中查询指定出现N次的数
  * </pre>
  *
  * @author sz_qiuhf@163.com
  * @since 2021-05-19
  **/
-public class FindKNumOfOddTimes {
+public class FindNumOfArray {
     public static void main(String[] args) {
-        int[] a = new int[]{-2, 3, 4, 3, -2, -2, 3};
-        System.out.println(lookup(a, 1, 3));
-        System.out.println(verify(a, 1, 3));
-        System.out.println(lookup1(a, 1, 3));
+        int[] arr1 = {2, 2, 2, 3, 3};
+        System.out.println(findOneOfOddTimes(arr1));
+        int[] arr2 = {1454, 0, 20000, 0, 3, 222, 222, 3};
+        System.out.println(Arrays.toString(findTwoOfOddTimes(arr2)));
+
+        int[] arr3 = new int[]{-2, 3, 4, 3, -2, -2, 3};
+        System.out.println(findNumOfkTime(arr3, 1, 3));
+        System.out.println(findNumOfkTime2(arr3, 1, 3));
+        System.out.println(verify(arr3, 1, 3));
 
         // 取值范围【-range，range】
         int range = 2000;
@@ -48,7 +52,6 @@ public class FindKNumOfOddTimes {
         int maxGroup = 20;
         // 验证testTime次数
         int testTime = 50;
-//        StopWatch watch = new StopWatch("第1轮测试..");
         for (int i = 0; i < testTime; i++) {
             // [1, maxTime]
             int num1 = (int) (Math.random() * maxTime) + 1;
@@ -62,7 +65,7 @@ public class FindKNumOfOddTimes {
 
             StopWatch watch = new StopWatch("第" + i + "轮测试..");
             watch.start("lookup");
-            Optional<Integer> lookupAns = lookup(arr, kTime, mTime);
+            Optional<Integer> lookupAns = findNumOfkTime(arr, kTime, mTime);
             watch.stop();
             watch.start("verify");
             Optional<Integer> verifyAns = verify(arr, kTime, mTime);
@@ -70,15 +73,26 @@ public class FindKNumOfOddTimes {
             System.out.println(watch.prettyPrint());
 
             if (!verifyAns.equals(lookupAns)) {
-                System.out.println("出错了，arr: " + Arrays.toString(arr));
-                System.out.println("出错了，lookup: " + lookupAns);
-                System.out.println("出错了，verify: " + verifyAns);
+                System.out.println("Error，arr: " + Arrays.toString(arr));
+                System.out.println("Error，actual: " + lookupAns);
+                System.out.println("Error，expect: " + verifyAns);
                 return;
             }
         }
     }
 
-    public static Optional<Integer> lookup(int[] arr, int kTime, int mTime) {
+    /**
+     * <pre>
+     *   一个数组中，只有一种数出现了K次，其他数都出现了M次, M > 1，K > 0, K < M,找出K次数的数
+     *   要求: 额外空间复杂度O(1)，时间复杂度O(N)
+     * </pre>
+     *
+     * @param arr   数组
+     * @param kTime K次
+     * @param mTime M次
+     * @return <code>Integer</code>
+     */
+    private static Optional<Integer> findNumOfkTime(int[] arr, int kTime, int mTime) {
         if (Objects.isNull(arr) || arr.length < 3) {
             throw new IllegalArgumentException("数组不能为空且长度必须大于2");
         }
@@ -119,35 +133,18 @@ public class FindKNumOfOddTimes {
         return Optional.empty();
     }
 
-    private static Optional<Integer> verify(int[] arr, int kTime, int mTime) {
-        if (Objects.isNull(arr) || arr.length < 3) {
-            throw new IllegalArgumentException("数组不能为空且长度必须大于2");
-        }
-
-        if (mTime <= 1 || kTime <= 0 || kTime > mTime) {
-            throw new IllegalArgumentException("k和m必须符合：M > 1，K > 0， K < M");
-        }
-
-        HashMap<Integer, Integer> dataMap = new HashMap<>(arr.length);
-        for (int num : arr) {
-            if (dataMap.containsKey(num)) {
-                dataMap.put(num, dataMap.get(num) + 1);
-            } else {
-                dataMap.put(num, 1);
-            }
-        }
-
-        for (Integer num : dataMap.keySet()) {
-            if (dataMap.get(num) == kTime) {
-                return Optional.of(num);
-            }
-        }
-
-        System.out.println("数组中不存在K次数的数， arr = " + Arrays.toString(arr));
-        return Optional.empty();
-    }
-
-    private static Optional<Integer> lookup1(int[] arr, int kTime, int mTime) {
+    /**
+     * <pre>
+     *   一个数组中，只有一种数出现了K次，其他数都出现了M次, M > 1，K > 0, K < M,找出K次数的数
+     *   要求: 额外空间复杂度O(1)，时间复杂度O(N)
+     * </pre>
+     *
+     * @param arr   数组
+     * @param kTime K次
+     * @param mTime M次
+     * @return <code>Integer</code>
+     */
+    private static Optional<Integer> findNumOfkTime2(int[] arr, int kTime, int mTime) {
         if (Objects.isNull(arr) || arr.length < 3) {
             throw new IllegalArgumentException("数组不能为空且长度必须大于2");
         }
@@ -198,6 +195,88 @@ public class FindKNumOfOddTimes {
 
         System.out.println("数组中不存在K次数的数， arr = " + Arrays.toString(arr));
         return Optional.empty();
+    }
+
+    private static Optional<Integer> verify(int[] arr, int kTime, int mTime) {
+        if (Objects.isNull(arr) || arr.length < 3) {
+            throw new IllegalArgumentException("数组不能为空且长度必须大于2");
+        }
+
+        if (mTime <= 1 || kTime <= 0 || kTime > mTime) {
+            throw new IllegalArgumentException("k和m必须符合：M > 1，K > 0， K < M");
+        }
+
+        HashMap<Integer, Integer> dataMap = new HashMap<>(arr.length);
+        for (int num : arr) {
+            if (dataMap.containsKey(num)) {
+                dataMap.put(num, dataMap.get(num) + 1);
+            } else {
+                dataMap.put(num, 1);
+            }
+        }
+
+        for (Integer num : dataMap.keySet()) {
+            if (dataMap.get(num) == kTime) {
+                return Optional.of(num);
+            }
+        }
+
+        System.out.println("数组中不存在K次数的数， arr = " + Arrays.toString(arr));
+        return Optional.empty();
+    }
+
+    /**
+     * <pre>
+     *     一个数组中有一种数出现了奇数次，其他数都出现了偶数次，怎么找到并打印这种数
+     * </pre>
+     *
+     * @param arr 数组
+     * @return <code>int</code>
+     */
+    private static int findOneOfOddTimes(int[] arr) {
+        if (Objects.isNull(arr) || arr.length < 1) {
+            throw new IllegalArgumentException("数组不能为空且长度必须大于0");
+        }
+        int num = 0;
+        for (int i : arr) {
+            // 0^N == N      N^N == 0
+            // 异或运算满足交换律和结合率
+            num ^= i;
+        }
+        return num;
+    }
+
+    /**
+     * <pre>
+     *    一个数组中有两种数出现了奇数次，其他数都出现了偶数次，怎么找到并打印这两种数
+     * </pre>
+     *
+     * @param arr 数组
+     * @return <code>int[]</code>
+     */
+    private static int[] findTwoOfOddTimes(int[] arr) {
+        if (Objects.isNull(arr) || arr.length < 1) {
+            throw new IllegalArgumentException("数组不能为空且长度必须大于0");
+        }
+        // 由题意可知，eor肯定不为0，只有有一位不相同
+        int eor = 0;
+        // 去除出现两次次数的数字，遍历后只剩余两个奇数
+        for (int num : arr) {
+            eor ^= num;
+        }
+        // 提取最右侧的1
+        int rightOne = eor & (-eor);
+        int eor2 = 0;
+        for (int num : arr) {
+            // 只异或最右侧等于1的数字
+            // rightOne:  0000 0010 0000
+            //      num:  0100 0010 0000
+            if ((num & rightOne) == rightOne) {
+                eor2 ^= num;
+            }
+        }
+
+        return new int[]{eor2, eor ^ eor2};
     }
 
     private static int[] randomArray(int maxGroup, int range, int kTime, int mTime) {

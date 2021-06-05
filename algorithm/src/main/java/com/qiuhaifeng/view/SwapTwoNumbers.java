@@ -33,5 +33,13 @@ public class SwapTwoNumbers {
         b ^= a;
         a ^= b;
         System.out.println("a = " + a + ", b = " + b);
+
+        int[] arr = {3, 1, 100};
+        int i = 0;
+        int j = 0;
+        arr[i] = arr[i] ^ arr[j];
+        arr[j] = arr[i] ^ arr[j];
+        arr[i] = arr[i] ^ arr[j];
+        System.out.println(arr[i] + " , " + arr[j]);
     }
 }
