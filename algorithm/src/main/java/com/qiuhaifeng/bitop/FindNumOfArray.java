@@ -43,6 +43,7 @@ public class FindNumOfArray {
         System.out.println(findNumOfkTime(arr3, 1, 3));
         System.out.println(findNumOfkTime2(arr3, 1, 3));
         System.out.println(verify(arr3, 1, 3));
+        System.out.println("============================");
 
         // 取值范围【-range，range】
         int range = 2000;
@@ -70,12 +71,14 @@ public class FindNumOfArray {
             watch.start("verify");
             Optional<Integer> verifyAns = verify(arr, kTime, mTime);
             watch.stop();
-            System.out.println(watch.prettyPrint());
+            if (i % 10 == 0) {
+                System.out.println(watch.prettyPrint());
+            }
 
             if (!verifyAns.equals(lookupAns)) {
-                System.out.println("Error，arr: " + Arrays.toString(arr));
-                System.out.println("Error，actual: " + lookupAns);
-                System.out.println("Error，expect: " + verifyAns);
+                System.err.println("Original: " + Arrays.toString(arr));
+                System.err.println("Actual: " + lookupAns);
+                System.err.println("Expect: " + verifyAns);
                 return;
             }
         }
@@ -281,8 +284,8 @@ public class FindNumOfArray {
 
     private static int[] randomArray(int maxGroup, int range, int kTime, int mTime) {
         int kNum = randomNumber(range);
-        // 真命天子出现次数,50%几率出现kTime,
-        //  kTime = Math.random() < 0.5 ? kTime : (int) (Math.random() * (mTime - 1)) + 1;
+        // 真命天子出现次数,80%几率出现kTime,
+        kTime = Math.random() < 0.8 ? kTime : (int) (Math.random() * (mTime - 1)) + 1;
         // 出现多少组: [2, mGroup]
         int mGroup = (int) (Math.random() * maxGroup) + 2;
         mGroup = Math.min(mGroup, maxGroup);
@@ -307,21 +310,9 @@ public class FindNumOfArray {
 
             // 填充m次数的数字
             for (int i = 0; i < mTime; i++) {
-                try {
-                    arr[index++] = mNum;
-                } catch (Exception e) {
-                    System.out.println("arr = " + Arrays.toString(arr));
-                    System.out.println("arr.length = " + arr.length);
-                    System.out.println("index = " + index);
-                    System.out.println("numSet = " + numSet);
-                    System.out.println("kTime = " + kTime + ", mTime = " + mTime);
-                    System.out.println("kNum = " + kNum + ", mNum = " + mNum);
-                    System.out.println("maxGroup = " + maxGroup + ", mGroup = " + mGroup);
-                }
+                arr[index++] = mNum;
             }
-
-            mGroup--;
-        } while (mGroup != 0);
+        } while (--mGroup != 0);
 
         // 打乱顺序
         int len = arr.length;
