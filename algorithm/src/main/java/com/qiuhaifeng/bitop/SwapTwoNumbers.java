@@ -14,19 +14,32 @@
  * limitations under the License.
  */
 
-package com.qiuhaifeng.view;
+package com.qiuhaifeng.bitop;
 
 /**
  * <pre>
- *    怎么把一个int类型的数，提取出最右侧的1来
+ *   如何不用额外变量交换两个数
  * </pre>
  *
  * @author sz_qiuhf@163.com
  * @since 2021-05-19
  **/
-public class FindFarRightOne {
+public class SwapTwoNumbers {
     public static void main(String[] args) {
-        int num = 7;
-        System.out.println(num & (-num));
+        int a = 9;
+        int b = 7;
+        System.out.println("a = " + a + ", b = " + b);
+        a ^= b;
+        b ^= a;
+        a ^= b;
+        System.out.println("a = " + a + ", b = " + b);
+
+        int[] arr = {3, 1, 100};
+        int i = 0;
+        int j = 0;
+        arr[i] = arr[i] ^ arr[j];
+        arr[j] = arr[i] ^ arr[j];
+        arr[i] = arr[i] ^ arr[j];
+        System.out.println(arr[i] + " , " + arr[j]);
     }
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.qiuhaifeng.view;
+package com.qiuhaifeng.bitop;
 
 import org.springframework.util.StopWatch;
 
