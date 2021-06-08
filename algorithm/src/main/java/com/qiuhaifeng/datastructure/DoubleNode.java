@@ -42,14 +42,76 @@ public class DoubleNode<T> {
         this.value = value;
     }
 
-    public static void main(String[] args) {
-        int maxDepth = 8;
-        int range = 10;
-        int testTime = 10000;
-        for (int i = 0; i < testTime; i++) {
-            generateRandomDoubleNode(maxDepth, range).ifPresent(DoubleNode::verifyDoubleNodeReverse);
-            generateRandomDoubleNode(maxDepth, range).ifPresent(DoubleNode::verifyNodeRemove);
+    /**
+     * <p>移除指定数据的节点</p>
+     *
+     * @param value value
+     * @return <code>Node</code> 新头节点
+     */
+    public Optional<DoubleNode<T>> removeValue(T value) {
+        DoubleNode<T> head = this;
+        // 确定头节点
+        do {
+            head.prev = null;
+            if (head.value != value) {
+                break;
+            }
+            head = head.next;
+        } while (Objects.nonNull(head));
+
+        // 如果都等于指定值，返回空
+        if (Objects.isNull(head)) {
+            return Optional.empty();
         }
+
+        // 下一个待比较的节点
+        DoubleNode<T> checkpoint = head.next;
+        DoubleNode<T> cur = head;
+        // 2 3 2 3 2 “2”
+        // 3 2 3 2
+        while (Objects.nonNull(checkpoint)) {
+            if (checkpoint.value != value) {
+                // 指向下一个节点
+                cur = checkpoint;
+            } else {
+                // 当前节点next指向下一个节点next
+                cur.next = checkpoint.next;
+                // 如果下一个节点为null, 说明到末尾，直接跳出循环
+                if (Objects.isNull(checkpoint.next)) {
+                    break;
+                }
+                checkpoint.next.prev = cur;
+            }
+            checkpoint = cur.next;
+        }
+
+        return Optional.of(head);
+    }
+
+    /**
+     * <p>双链表反转</p>
+     *
+     * @return <code>Node</code>
+     */
+    public Optional<DoubleNode<T>> reverse() {
+        DoubleNode<T> head = this;
+        DoubleNode<T> next;
+        DoubleNode<T> cur = null;
+        // a <-> b <-> c <-> null
+        // c <-> b <-> a <-> null
+        while (Objects.nonNull(head)) {
+            // b | c | null
+            next = head.next;
+            // b <- a -> null | c <- b -> a | null <- c -> b
+            head.next = cur;
+            head.prev = next;
+            // a | b | c
+            cur = head;
+            // b | c | null
+            head = next;
+        }
+
+        return Optional.of(cur);
     }
 
     /**
@@ -81,6 +143,16 @@ public class DoubleNode<T> {
     }
 
     // for test
+
+    public static void main(String[] args) {
+        int maxDepth = 8;
+        int range = 10;
+        int testTime = 10000;
+        for (int i = 0; i < testTime; i++) {
+            generateRandomDoubleNode(maxDepth, range).ifPresent(DoubleNode::verifyDoubleNodeReverse);
+            generateRandomDoubleNode(maxDepth, range).ifPresent(DoubleNode::verifyNodeRemove);
+        }
+    }
 
     /**
      * <p>验证移除指定数据的节点结果是否正确</p>
@@ -153,78 +225,6 @@ public class DoubleNode<T> {
         } while (Objects.nonNull(next));
 
         return Optional.of(list);
-    }
-
-    /**
-     * <p>移除指定数据的节点</p>
-     *
-     * @param value value
-     * @return <code>Node</code> 新头节点
-     */
-    public Optional<DoubleNode<T>> removeValue(T value) {
-        DoubleNode<T> head = this;
-        // 确定头节点
-        do {
-            head.prev = null;
-            if (head.value != value) {
-                break;
-            }
-            head = head.next;
-        } while (Objects.nonNull(head));
-
-        // 如果都等于指定值，返回空
-        if (Objects.isNull(head)) {
-            return Optional.empty();
-        }
-
-        // 下一个待比较的节点
-        DoubleNode<T> checkpoint = head.next;
-        DoubleNode<T> cur = head;
-        // 2 3 2 3 2 “2”
-        // 3 2 3 2
-        while (Objects.nonNull(checkpoint)) {
-            if (checkpoint.value != value) {
-                // 指向下一个节点
-                cur = checkpoint;
-            } else {
-                // 当前节点next指向下一个节点next
-                cur.next = checkpoint.next;
-                // 如果下一个节点为null, 说明到末尾，直接跳出循环
-                if (Objects.isNull(checkpoint.next)) {
-                    break;
-                }
-                checkpoint.next.prev = cur;
-            }
-            checkpoint = cur.next;
-        }
-
-        return Optional.of(head);
-    }
-
-    /**
-     * <p>双链表反转</p>
-     *
-     * @return <code>Node</code>
-     */
-    public Optional<DoubleNode<T>> reverse() {
-        DoubleNode<T> head = this;
-        DoubleNode<T> next;
-        DoubleNode<T> cur = null;
-        // a <-> b <-> c <-> null
-        // c <-> b <-> a <-> null
-        while (Objects.nonNull(head)) {
-            // b | c | null
-            next = head.next;
-            // b <- a -> null | c <- b -> a | null <- c -> b
-            head.next = cur;
-            head.prev = next;
-            // a | b | c
-            cur = head;
-            // b | c | null
-            head = next;
-        }
-
-        return Optional.of(cur);
     }
 
     /**

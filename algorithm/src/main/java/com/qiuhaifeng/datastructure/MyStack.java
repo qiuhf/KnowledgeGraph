@@ -29,48 +29,6 @@ import java.util.Objects;
  * @since 2021-06-05
  **/
 public class MyStack {
-    public static void main(String[] args) {
-        int capacity = (int) (Math.random() * 20);
-        verifyStack(new DoubleLinkListImplementStack<>(0), capacity);
-        System.out.println("");
-        verifyStack(new ArrayImplementStack<>(capacity), capacity);
-    }
-
-    /**
-     * <p>验证自定义栈</p>
-     *
-     * @param stack    自定义栈
-     * @param capacity 次数
-     */
-    private static void verifyStack(IStack<Integer> stack, int capacity) {
-        for (int i = 0; i < capacity; i++) {
-            System.out.print(stack.push(i) + " -> ");
-        }
-        System.out.println("null");
-        for (int i = 0; i < capacity; i++) {
-            System.out.print(stack.pop() + " <- ");
-        }
-    }
-
-    interface IStack<E> {
-        /**
-         * <p>将一个value推到这个堆栈的顶部</p>
-         *
-         * @param value value
-         * @return <code>T</code>
-         */
-        E push(E value);
-
-        /**
-         * <p>移除此堆栈顶部的对象并返回该对象作为此函数的值</p>
-         *
-         * @return <code>T</code>
-         */
-        E pop();
-    }
-
-    // for test
-
     /**
      * 双向链表实现栈
      *
@@ -162,6 +120,53 @@ public class MyStack {
                 throw new ArrayIndexOutOfBoundsException("Stack may be empty!");
             }
             return (E) this.data[this.index];
+        }
+    }
+
+    /**
+     * IStack
+     *
+     * @param <E>
+     */
+    interface IStack<E> {
+        /**
+         * <p>将一个value推到这个堆栈的顶部</p>
+         *
+         * @param value value
+         * @return <code>T</code>
+         */
+        E push(E value);
+
+        /**
+         * <p>移除此堆栈顶部的对象并返回该对象作为此函数的值</p>
+         *
+         * @return <code>T</code>
+         */
+        E pop();
+    }
+
+    // for test
+
+    public static void main(String[] args) {
+        int capacity = (int) (Math.random() * 20);
+        verifyStack(new DoubleLinkListImplementStack<>(0), capacity);
+        System.out.println("");
+        verifyStack(new ArrayImplementStack<>(capacity), capacity);
+    }
+
+    /**
+     * <p>验证自定义栈</p>
+     *
+     * @param stack    自定义栈
+     * @param capacity 次数
+     */
+    private static void verifyStack(IStack<Integer> stack, int capacity) {
+        for (int i = 0; i < capacity; i++) {
+            System.out.print(stack.push(i) + " -> ");
+        }
+        System.out.println("null");
+        for (int i = 0; i < capacity; i++) {
+            System.out.print(stack.pop() + " <- ");
         }
     }
 }
