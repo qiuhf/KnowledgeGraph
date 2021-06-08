@@ -35,47 +35,188 @@ public class DoubleNode<T> {
     }
 
     public static void main(String[] args) {
-        int maxDepth = 5;
-        int range = 200;
-        int testTime = 100;
+        int maxDepth = 8;
+        int range = 10;
+        int testTime = 10000;
         for (int i = 0; i < testTime; i++) {
-            Optional<DoubleNode<Integer>> doubleNodeOp = generateRandomDoubleNode(maxDepth, range);
-            if (doubleNodeOp.isPresent()) {
-                DoubleNode<Integer> doubleNode = doubleNodeOp.get();
+            generateRandomDoubleNode(maxDepth, range).ifPresent(DoubleNode::verifyDoubleNodeReverse);
+            generateRandomDoubleNode(maxDepth, range).ifPresent(DoubleNode::verifyNodeRemove);
+        }
+    }
 
-                Optional<List<DoubleNode<Integer>>> nodesOp = toList(doubleNode);
-                Optional<DoubleNode<Integer>> reverseDoubleNodeOp = doubleNode.reverse();
+    /**
+     * <p>验证反转结果是否正确</p>
+     *
+     * @param doubleNode DoubleNode
+     */
+    private static void verifyDoubleNodeReverse(DoubleNode<Integer> doubleNode) {
+        Optional<List<DoubleNode<Integer>>> listOp = toList(doubleNode);
+        Optional<DoubleNode<Integer>> nodesOp = doubleNode.reverse();
 
-                if (!nodesOp.isPresent() && !reverseDoubleNodeOp.isPresent()) {
-                    continue;
-                }
-
-                if (nodesOp.isPresent() && reverseDoubleNodeOp.isPresent()) {
-                    checkReverse(nodesOp.get(), reverseDoubleNodeOp.get());
-                }
-            }
+        if (!listOp.isPresent() && !nodesOp.isPresent()) {
+            return;
         }
 
+        if (listOp.isPresent() && nodesOp.isPresent()) {
+            List<DoubleNode<Integer>> doubleNodeList = listOp.get();
+            DoubleNode<Integer> reverseDoubleNode = nodesOp.get();
+            int size = doubleNodeList.size();
+            for (int i = size; i > 0; i--) {
+                if (!Objects.equals(doubleNodeList.get(i - 1), reverseDoubleNode)) {
+                    System.err.println("Original: " + listOp);
+                    System.err.println("actual: " + toList(reverseDoubleNode));
+                    return;
+                }
+                reverseDoubleNode = reverseDoubleNode.next;
+            }
+        }
     }
 
     // for test
 
     /**
-     * <p>检验反转结果</p>
+     * <p>验证移除指定数据的节点结果是否正确</p>
      *
-     * @param doubleNodeList    doubleNodeList
-     * @param reverseDoubleNode 反转之后的头节点
+     * @param doubleNode Node
      */
-    private static void checkReverse(List<DoubleNode<Integer>> doubleNodeList, DoubleNode<Integer> reverseDoubleNode) {
-        int size = doubleNodeList.size();
-        for (int i = size; i > 0; i--) {
-            if (!Objects.equals(doubleNodeList.get(i - 1), reverseDoubleNode)) {
-                System.err.println("Original: " + doubleNodeList);
-                System.err.println("actual: " + toList(reverseDoubleNode).get());
-                return;
-            }
-            reverseDoubleNode = reverseDoubleNode.next;
+    private static void verifyNodeRemove(DoubleNode<Integer> doubleNode) {
+        Integer removeValue = getRandomKind(doubleNode);
+        Optional<List<Integer>> listOp = deleteValue(doubleNode, removeValue);
+        Optional<DoubleNode<Integer>> nodesOp = doubleNode.removeValue(removeValue);
+        if (!listOp.isPresent() && !nodesOp.isPresent()) {
+            return;
         }
+
+        if (listOp.isPresent() && nodesOp.isPresent()) {
+            List<Integer> list = listOp.get();
+            DoubleNode<Integer> node = nodesOp.get();
+            int size = list.size();
+            for (int i = 0; i < size; i++) {
+                if (!Objects.equals(list.get(i), node.value)) {
+                    System.err.println("removeValue: " + removeValue);
+                    System.err.println("Original: " + list);
+                    System.err.println("actual: " + deleteValue(node, removeValue));
+                    return;
+                }
+                node = node.next;
+            }
+        }
+    }
+
+    /**
+     * <p>概率获取要删除的数据</p>
+     *
+     * @param doubleNode DoubleNode
+     * @return <code>Integer</code>
+     */
+    private static Integer getRandomKind(DoubleNode<Integer> doubleNode) {
+        if (Objects.isNull(doubleNode)) {
+            return Integer.MAX_VALUE;
+        }
+        DoubleNode<Integer> next = doubleNode;
+        List<Integer> list = new ArrayList<>();
+        do {
+            list.add(next.value);
+            next = next.next;
+        } while (Objects.nonNull(next));
+        int size = list.size();
+        return Math.random() > 0.5 ? Integer.MIN_VALUE : list.get((int) (Math.random() * size));
+    }
+
+    /**
+     * <p>删除指定数据，并将非指定数据存放到list</p>
+     *
+     * @param doubleNode  Node
+     * @param removeValue 要删除的数据
+     * @param <T>         类型
+     * @return <code>List<T></code>
+     */
+    private static <T> Optional<List<T>> deleteValue(DoubleNode<T> doubleNode, T removeValue) {
+        if (Objects.isNull(doubleNode)) {
+            return Optional.empty();
+        }
+        DoubleNode<T> next = doubleNode;
+        List<T> list = new ArrayList<>();
+        do {
+            if (next.value != removeValue) {
+                list.add(next.value);
+            }
+            next = next.next;
+        } while (Objects.nonNull(next));
+
+        return Optional.of(list);
+    }
+
+    /**
+     * <p>移除指定数据的节点</p>
+     *
+     * @param value value
+     * @return <code>Node</code> 新头节点
+     */
+    public Optional<DoubleNode<T>> removeValue(T value) {
+        DoubleNode<T> head = this;
+        // 确定头节点
+        do {
+            head.prev = null;
+            if (head.value != value) {
+                break;
+            }
+            head = head.next;
+        } while (Objects.nonNull(head));
+
+        // 如果都等于指定值，返回空
+        if (Objects.isNull(head)) {
+            return Optional.empty();
+        }
+
+        // 下一个待比较的节点
+        DoubleNode<T> checkpoint = head.next;
+        DoubleNode<T> cur = head;
+        // 2 3 2 3 2 “2”
+        // 3 2 3 2
+        while (Objects.nonNull(checkpoint)) {
+            if (checkpoint.value != value) {
+                // 指向下一个节点
+                cur = checkpoint;
+            } else {
+                // 当前节点next指向下一个节点next
+                cur.next = checkpoint.next;
+                // 如果下一个节点为null, 说明到末尾，直接跳出循环
+                if (Objects.isNull(checkpoint.next)) {
+                    break;
+                }
+                checkpoint.next.prev = cur;
+            }
+            checkpoint = cur.next;
+        }
+
+        return Optional.of(head);
+    }
+
+    /**
+     * <p>双链表反转</p>
+     *
+     * @return <code>Node</code>
+     */
+    public Optional<DoubleNode<T>> reverse() {
+        DoubleNode<T> head = this;
+        DoubleNode<T> next;
+        DoubleNode<T> cur = null;
+        // a <-> b <-> c <-> null
+        // c <-> b <-> a <-> null
+        while (Objects.nonNull(head)) {
+            // b | c | null
+            next = head.next;
+            // b <- a -> null | c <- b -> a | null <- c -> b
+            head.next = cur;
+            head.prev = next;
+            // a | b | c
+            cur = head;
+            // b | c | null
+            head = next;
+        }
+
+        return Optional.of(cur);
     }
 
     /**
@@ -132,31 +273,5 @@ public class DoubleNode<T> {
      */
     private static int randomNumber(int range) {
         return ((int) (Math.random() * range) + 1) - ((int) (Math.random() * range) + 1);
-    }
-
-    /**
-     * <p>双链表反转</p>
-     *
-     * @return <code>Node</code>
-     */
-    public Optional<DoubleNode<T>> reverse() {
-        DoubleNode<T> head = this;
-        DoubleNode<T> next;
-        DoubleNode<T> cur = null;
-        // a <-> b <-> c <-> null
-        // c <-> b <-> a <-> null
-        while (Objects.nonNull(head)) {
-            // b | c | null
-            next = head.next;
-            // b <- a -> null | c <- b -> a | null <- c -> b
-            head.next = cur;
-            head.prev = next;
-            // a | b | c
-            cur = head;
-            // b | c | null
-            head = next;
-        }
-
-        return Optional.of(cur);
     }
 }
