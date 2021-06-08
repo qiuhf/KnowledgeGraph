@@ -16,6 +16,9 @@
 
 package com.qiuhaifeng.datastructure;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -25,10 +28,15 @@ import java.util.Optional;
  * @author sz_qiuhf@163.com
  * @since 2021-06-05
  **/
+@Getter
+@Setter
 public class DoubleNode<T> {
     private T value;
     private DoubleNode<T> prev;
     private DoubleNode<T> next;
+
+    public DoubleNode() {
+    }
 
     public DoubleNode(T value) {
         this.value = value;
