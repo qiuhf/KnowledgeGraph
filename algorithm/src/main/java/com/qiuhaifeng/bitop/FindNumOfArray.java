@@ -21,6 +21,7 @@ import org.springframework.util.StopWatch;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -43,6 +44,7 @@ public class FindNumOfArray {
         System.out.println(findNumOfkTime(arr3, 1, 3));
         System.out.println(findNumOfkTime2(arr3, 1, 3));
         System.out.println(verify(arr3, 1, 3));
+
         System.out.println("============================");
 
         // 取值范围【-range，range】
@@ -50,7 +52,7 @@ public class FindNumOfArray {
         // 最多出现maxTime次
         int maxTime = 12;
         // 最多生成maxGroup组的数字
-        int maxGroup = 20;
+        int maxGroup = 1000;
         // 验证testTime次数
         int testTime = 50;
         for (int i = 0; i < testTime; i++) {
@@ -76,9 +78,8 @@ public class FindNumOfArray {
             }
 
             if (!verifyAns.equals(lookupAns)) {
-                System.err.println("Original: " + Arrays.toString(arr));
-                System.err.println("Actual: " + lookupAns);
-                System.err.println("Expect: " + verifyAns);
+                System.err.format(Locale.ROOT, "Original: %s\nActual: %s\nExpect: %s\n", Arrays.toString(arr),
+                        lookupAns, verifyAns);
                 return;
             }
         }
@@ -132,7 +133,6 @@ public class FindNumOfArray {
             return Optional.of(ans);
         }
 
-        System.out.println("数组中不存在K次数的数， arr = " + Arrays.toString(arr));
         return Optional.empty();
     }
 
@@ -224,7 +224,6 @@ public class FindNumOfArray {
             }
         }
 
-        System.out.println("数组中不存在K次数的数， arr = " + Arrays.toString(arr));
         return Optional.empty();
     }
 

@@ -18,6 +18,7 @@ package com.qiuhaifeng.datastructure;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -31,118 +32,6 @@ public class Node<T> {
 
     public Node(T value) {
         this.value = value;
-    }
-
-    public static void main(String[] args) {
-        int maxDepth = 8;
-        int range = 10;
-        int testTime = 10000;
-        for (int i = 0; i < testTime; i++) {
-            generateRandomNode(maxDepth, range).ifPresent(Node::verifyNodeReverse);
-            generateRandomNode(maxDepth, range).ifPresent(Node::verifyNodeRemove);
-        }
-    }
-
-    /**
-     * <p>验证移除指定数据的节点结果是否正确</p>
-     *
-     * @param node Node
-     */
-    private static void verifyNodeRemove(Node<Integer> node) {
-        Integer removeValue = getRandomKind(node);
-        Optional<List<Integer>> listOp = deleteValue(node, removeValue);
-        Optional<Node<Integer>> nodesOp = node.removeValue(removeValue);
-        if (!listOp.isPresent() && !nodesOp.isPresent()) {
-            return;
-        }
-
-        if (listOp.isPresent() && nodesOp.isPresent()) {
-            List<Integer> list = listOp.get();
-            Node<Integer> nodes = nodesOp.get();
-            int size = list.size();
-            for (int i = 0; i < size; i++) {
-                if (!Objects.equals(list.get(i), nodes.value)) {
-                    System.err.println("Original: " + list);
-                    System.err.println("actual: " + deleteValue(nodes, removeValue));
-                    return;
-                }
-                nodes = nodes.next;
-            }
-        }
-    }
-
-    // for test
-
-    /**
-     * <p>概率获取要删除的数据</p>
-     *
-     * @param node Node
-     * @return <code>Integer</code>
-     */
-    private static Integer getRandomKind(Node<Integer> node) {
-        if (Objects.isNull(node)) {
-            return Integer.MAX_VALUE;
-        }
-        Node<Integer> next = node;
-        List<Integer> list = new ArrayList<>();
-        do {
-            list.add(next.value);
-            next = next.next;
-        } while (Objects.nonNull(next));
-        int size = list.size();
-        return Math.random() > 0.5 ? Integer.MIN_VALUE : list.get((int) (Math.random() * size));
-    }
-
-    /**
-     * <p>删除指定数据，并将非指定数据存放到list</p>
-     *
-     * @param node        Node
-     * @param removeValue 要删除的数据
-     * @param <T>         类型
-     * @return <code>List<T></code>
-     */
-    private static <T> Optional<List<T>> deleteValue(Node<T> node, T removeValue) {
-        if (Objects.isNull(node)) {
-            return Optional.empty();
-        }
-        List<T> list = new ArrayList<>();
-        do {
-            if (node.value != removeValue) {
-                list.add(node.value);
-            }
-            node = node.next;
-        } while (Objects.nonNull(node));
-
-        return Optional.of(list);
-    }
-
-    /**
-     * <p>验证反转结果是否正确</p>
-     *
-     * @param node Node
-     */
-    private static void verifyNodeReverse(Node<Integer> node) {
-
-        Optional<List<Node<Integer>>> listOp = toList(node);
-        Optional<Node<Integer>> nodesOp = node.reverse();
-
-        if (!listOp.isPresent() && !nodesOp.isPresent()) {
-            return;
-        }
-
-        if (listOp.isPresent() && nodesOp.isPresent()) {
-            List<Node<Integer>> nodeList = listOp.get();
-            Node<Integer> reverseNode = nodesOp.get();
-            int size = nodeList.size();
-            for (int i = size; i > 0; i--) {
-                if (!Objects.equals(reverseNode, nodeList.get(i - 1))) {
-                    System.err.println("Original: " + listOp);
-                    System.err.println("actual: " + toList(reverseNode));
-                    return;
-                }
-                reverseNode = reverseNode.next;
-            }
-        }
     }
 
     /**
@@ -208,6 +97,133 @@ public class Node<T> {
         return Optional.of(cur);
     }
 
+    // for test
+
+    public static void main(String[] args) {
+        int maxDepth = 8;
+        // [0, range)
+        int range = 10;
+        int testTime = 10_000;
+        for (int i = 0; i < testTime; i++) {
+            generateRandomNode(maxDepth, range).ifPresent(Node::verifyNodeReverse);
+            generateRandomNode(maxDepth, range).ifPresent(Node::verifyNodeRemove);
+        }
+    }
+
+    /**
+     * <p>验证移除指定数据的节点结果是否正确</p>
+     *
+     * @param node Node
+     */
+    private static void verifyNodeRemove(Node<Integer> node) {
+        Integer removeValue = getRandomKind(node);
+        Optional<List<Integer>> listOp = deleteValue(node, removeValue);
+        Optional<Node<Integer>> nodesOp = node.removeValue(removeValue);
+        if (!listOp.isPresent() && !nodesOp.isPresent()) {
+            return;
+        }
+
+        if (listOp.isPresent() && nodesOp.isPresent()) {
+            List<Integer> list = listOp.get();
+            Node<Integer> nodes = nodesOp.get();
+            for (Integer value : list) {
+                if (!Objects.equals(value, nodes.value)) {
+                    System.err.format(Locale.ROOT, "Remove value: %d\nExpect: %s\nActual: %s\n", removeValue,
+                            listOp, toList(nodes));
+                    return;
+                }
+                nodes = nodes.next;
+            }
+        }
+    }
+
+    /**
+     * <p>概率获取要删除的数据</p>
+     *
+     * @param node Node
+     * @return <code>Integer</code>
+     */
+    private static Integer getRandomKind(Node<Integer> node) {
+        if (Objects.isNull(node) || Math.random() > 0.5) {
+            return -1;
+        }
+
+        List<Integer> list = toList(node).get();
+        return list.get((int) (Math.random() * list.size()));
+    }
+
+    /**
+     * <p>遍历或者节点中的数据</p>
+     *
+     * @param node Node
+     * @return <code>List<T></code>
+     */
+    private static <T> Optional<List<T>> toList(Node<T> node) {
+        if (Objects.isNull(node)) {
+            return Optional.empty();
+        }
+
+        Node<T> next = node;
+        List<T> list = new ArrayList<>();
+        do {
+            list.add(next.value);
+            next = next.next;
+        } while (Objects.nonNull(next));
+
+        return Optional.of(list);
+    }
+
+    /**
+     * <p>删除指定数据，并将非指定数据存放到list</p>
+     *
+     * @param node        Node
+     * @param removeValue 要删除的数据
+     * @param <T>         类型
+     * @return <code>List<T></code>
+     */
+    private static <T> Optional<List<T>> deleteValue(Node<T> node, T removeValue) {
+        if (Objects.isNull(node)) {
+            return Optional.empty();
+        }
+
+        List<T> list = new ArrayList<>();
+        do {
+            if (node.value != removeValue) {
+                list.add(node.value);
+            }
+            node = node.next;
+        } while (Objects.nonNull(node));
+
+        return Optional.of(list);
+    }
+
+    /**
+     * <p>验证反转结果是否正确</p>
+     *
+     * @param node Node
+     */
+    private static void verifyNodeReverse(Node<Integer> node) {
+        Optional<List<Node<Integer>>> listOp = toNodeList(node);
+        Optional<Node<Integer>> nodesOp = node.reverse();
+
+        if (!listOp.isPresent() && !nodesOp.isPresent()) {
+            return;
+        }
+
+        if (listOp.isPresent() && nodesOp.isPresent()) {
+            List<Node<Integer>> nodeList = listOp.get();
+            Node<Integer> reverseNode = nodesOp.get();
+            int size = nodeList.size();
+            for (int i = size; i > 0; i--) {
+                if (!Objects.equals(reverseNode, nodeList.get(i - 1))) {
+                    System.err.format(Locale.ROOT, "Expect: %s\nActual: %s\n", listOp, toNodeList(reverseNode));
+                    return;
+                }
+                reverseNode = reverseNode.next;
+            }
+        }
+    }
+
     /**
      * <p>转换list列表</p>
      *
@@ -215,11 +231,7 @@ public class Node<T> {
      * @param <T>  元素类型
      * @return <code>List<Node<T>></code>
      */
-    private static <T> Optional<List<Node<T>>> toList(Node<T> head) {
-        if (Objects.isNull(head)) {
-            return Optional.empty();
-        }
-
+    private static <T> Optional<List<Node<T>>> toNodeList(Node<T> head) {
         List<Node<T>> list = new ArrayList<>();
         do {
             list.add(head);
@@ -241,26 +253,16 @@ public class Node<T> {
         if (depth == 0) {
             return Optional.empty();
         }
-        Node<Integer> head = new Node<>(randomNumber(range));
+        Node<Integer> head = new Node<>((int) (Math.random() * range));
         // next指向head地址
         Node<Integer> next = head;
         while (depth-- > 1) {
-            Node<Integer> node = new Node<>(randomNumber(range));
+            Node<Integer> node = new Node<>((int) (Math.random() * range));
             next.next = node;
             // next指向当前节点地址
             next = node;
         }
 
         return Optional.of(head);
-    }
-
-    /**
-     * <p>随机生成范围中的一个数：{range, -range}</p>
-     *
-     * @param range 范围
-     * @return <code>int</code>
-     */
-    private static int randomNumber(int range) {
-        return ((int) (Math.random() * range) + 1) - ((int) (Math.random() * range) + 1);
     }
 }

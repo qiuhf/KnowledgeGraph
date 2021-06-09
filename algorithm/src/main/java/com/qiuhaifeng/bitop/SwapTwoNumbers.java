@@ -16,6 +16,8 @@
 
 package com.qiuhaifeng.bitop;
 
+import java.util.Locale;
+
 /**
  * <pre>
  *   如何不用额外变量交换两个数
@@ -28,18 +30,19 @@ public class SwapTwoNumbers {
     public static void main(String[] args) {
         int a = 9;
         int b = 7;
-        System.out.println("a = " + a + ", b = " + b);
+        System.out.format(Locale.ROOT, "a = %d, b = %d\n", a, b);
         a ^= b;
         b ^= a;
         a ^= b;
-        System.out.println("a = " + a + ", b = " + b);
+        System.out.format(Locale.ROOT, "a = %d, b = %d\n", a, b);
 
         int[] arr = {3, 1, 100};
         int i = 0;
         int j = 0;
+        System.out.format(Locale.ROOT, "arr[%d] = %d, arr[%d] = %d\n", i, arr[i], j, arr[j]);
         arr[i] = arr[i] ^ arr[j];
         arr[j] = arr[i] ^ arr[j];
         arr[i] = arr[i] ^ arr[j];
-        System.out.println(arr[i] + " , " + arr[j]);
+        System.out.format(Locale.ROOT, "arr[%d] = %d, arr[%d] = %d\n", i, arr[i], j, arr[j]);
     }
 }

@@ -17,6 +17,7 @@
 package com.qiuhaifeng.datastructure;
 
 import java.util.Objects;
+import java.util.Stack;
 
 /**
  * <pre>
@@ -30,15 +31,14 @@ import java.util.Objects;
  **/
 public class MyStack {
     /**
-     * 双向链表实现栈
+     * <p>双向链表实现栈</p>
      *
      * @param <E>
      */
     static class DoubleLinkListImplementStack<E> implements IStack<E> {
         private DoubleNode<E> head;
 
-        public DoubleLinkListImplementStack(E value) {
-            this.head = new DoubleNode<>(value);
+        public DoubleLinkListImplementStack() {
         }
 
         /**
@@ -49,12 +49,17 @@ public class MyStack {
          */
         @Override
         public E push(E value) {
-            DoubleNode<E> top = new DoubleNode<>(value);
-            if (Objects.nonNull(this.head)) {
-                this.head.setPrev(top);
-                top.setNext(this.head);
+            if (isEmpty()) {
+                this.head = new DoubleNode<>();
+                this.head.setValue(value);
+                return value;
             }
+
+            DoubleNode<E> top = new DoubleNode<>(value);
+            top.setNext(this.head);
+            this.head.setPrev(top);
             this.head = top;
+            
             return value;
         }
 
@@ -65,7 +70,7 @@ public class MyStack {
          */
         @Override
         public E pop() {
-            if (Objects.isNull(this.head)) {
+            if (isEmpty()) {
                 throw new ArrayIndexOutOfBoundsException("Stack may be empty!");
             }
 
@@ -76,10 +81,20 @@ public class MyStack {
             }
             return value;
         }
+
+        /**
+         * <p>堆栈是否为空</p>
+         *
+         * @return <code>boolean</code>
+         */
+        @Override
+        public boolean isEmpty() {
+            return Objects.isNull(this.head);
+        }
     }
 
     /**
-     * 数组实现栈
+     * <p>固定数组大小实现栈</p>
      *
      * @param <E>
      */
@@ -116,10 +131,21 @@ public class MyStack {
          */
         @Override
         public E pop() {
-            if (this.index-- <= 0) {
-                throw new ArrayIndexOutOfBoundsException("Stack may be empty!");
+            if (!isEmpty()) {
+                return (E) this.data[--this.index];
             }
-            return (E) this.data[this.index];
+
+            throw new ArrayIndexOutOfBoundsException("Stack may be empty!");
+        }
+
+        /**
+         * <p>堆栈是否为空</p>
+         *
+         * @return <code>boolean</code>
+         */
+        @Override
+        public boolean isEmpty() {
+            return this.index <= 0;
         }
     }
 
@@ -143,15 +169,56 @@ public class MyStack {
          * @return <code>T</code>
          */
         E pop();
+
+        /**
+         * <p>堆栈是否为空</p>
+         *
+         * @return <code>boolean</code>
+         */
+        boolean isEmpty();
     }
 
     // for test
 
     public static void main(String[] args) {
         int capacity = (int) (Math.random() * 20);
-        verifyStack(new DoubleLinkListImplementStack<>(0), capacity);
+
+        verifyStack(new DoubleLinkListImplementStack<>(), capacity);
         System.out.println("");
+
         verifyStack(new ArrayImplementStack<>(capacity), capacity);
+        System.out.println("");
+
+        int range = 20_000;
+        int oneTestDataNum = 100;
+        int testTime = 100_000;
+        for (int i = 0; i < testTime; i++) {
+            Stack<Integer> stack = new Stack<>();
+            ArrayImplementStack<Integer> myStack1 = new ArrayImplementStack<>(oneTestDataNum);
+            DoubleLinkListImplementStack<Integer> myStack2 = new DoubleLinkListImplementStack<>();
+            for (int j = 0; j < oneTestDataNum; j++) {
+                int value = (int) (Math.random() * range);
+                if (stack.isEmpty() || Math.random() > 0.5) {
+                    stack.push(value);
+                    myStack1.push(value);
+                    myStack2.push(value);
+                    continue;
+                }
+
+                Integer pop = stack.pop();
+                Integer pop1 = myStack1.pop();
+                if (!Objects.equals(pop1, pop)) {
+                    System.err.format("ArrayImplementStack oops! Actual: %s, Expect: %s\n", pop1, pop);
+                    return;
+                }
+
+                Integer pop2 = myStack2.pop();
+                if (!Objects.equals(pop2, pop)) {
+                    System.err.format("DoubleLinkListImplementStack oops! Actual: %s, Expect: %s\n", pop1, pop);
+                    return;
+                }
+            }
+        }
     }
 
     /**
@@ -168,5 +235,6 @@ public class MyStack {
         for (int i = 0; i < capacity; i++) {
             System.out.print(stack.pop() + " <- ");
         }
+        System.out.print("null");
     }
 }

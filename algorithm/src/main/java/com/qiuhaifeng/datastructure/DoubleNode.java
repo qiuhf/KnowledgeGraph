@@ -21,6 +21,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -114,13 +115,25 @@ public class DoubleNode<T> {
         return Optional.of(cur);
     }
 
+    // for test
+
+    public static void main(String[] args) {
+        int maxDepth = 8;
+        int range = 10;
+        int testTime = 10_000;
+        for (int i = 0; i < testTime; i++) {
+            generateRandomDoubleNode(maxDepth, range).ifPresent(DoubleNode::verifyDoubleNodeReverse);
+            generateRandomDoubleNode(maxDepth, range).ifPresent(DoubleNode::verifyNodeRemove);
+        }
+    }
+
     /**
      * <p>验证反转结果是否正确</p>
      *
      * @param doubleNode DoubleNode
      */
     private static void verifyDoubleNodeReverse(DoubleNode<Integer> doubleNode) {
-        Optional<List<DoubleNode<Integer>>> listOp = toList(doubleNode);
+        Optional<List<DoubleNode<Integer>>> listOp = toNodeList(doubleNode);
         Optional<DoubleNode<Integer>> nodesOp = doubleNode.reverse();
 
         if (!listOp.isPresent() && !nodesOp.isPresent()) {
@@ -133,8 +146,7 @@ public class DoubleNode<T> {
             int size = doubleNodeList.size();
             for (int i = size; i > 0; i--) {
                 if (!Objects.equals(doubleNodeList.get(i - 1), reverseDoubleNode)) {
-                    System.err.println("Original: " + listOp);
-                    System.err.println("actual: " + toList(reverseDoubleNode));
+                    System.err.format(Locale.ROOT, "Expect: %s\nActual: %s\n", listOp, toNodeList(reverseDoubleNode));
                     return;
                 }
                 reverseDoubleNode = reverseDoubleNode.next;
@@ -142,43 +154,29 @@ public class DoubleNode<T> {
         }
     }
 
-    // for test
-
-    public static void main(String[] args) {
-        int maxDepth = 8;
-        int range = 10;
-        int testTime = 10000;
-        for (int i = 0; i < testTime; i++) {
-            generateRandomDoubleNode(maxDepth, range).ifPresent(DoubleNode::verifyDoubleNodeReverse);
-            generateRandomDoubleNode(maxDepth, range).ifPresent(DoubleNode::verifyNodeRemove);
-        }
-    }
-
     /**
      * <p>验证移除指定数据的节点结果是否正确</p>
      *
-     * @param doubleNode Node
+     * @param doubleNodes Node
      */
-    private static void verifyNodeRemove(DoubleNode<Integer> doubleNode) {
-        Integer removeValue = getRandomKind(doubleNode);
-        Optional<List<Integer>> listOp = deleteValue(doubleNode, removeValue);
-        Optional<DoubleNode<Integer>> nodesOp = doubleNode.removeValue(removeValue);
+    private static void verifyNodeRemove(DoubleNode<Integer> doubleNodes) {
+        Integer removeValue = getRandomKind(doubleNodes);
+        Optional<List<Integer>> listOp = deleteValue(doubleNodes, removeValue);
+        Optional<DoubleNode<Integer>> nodesOp = doubleNodes.removeValue(removeValue);
         if (!listOp.isPresent() && !nodesOp.isPresent()) {
             return;
         }
 
         if (listOp.isPresent() && nodesOp.isPresent()) {
             List<Integer> list = listOp.get();
-            DoubleNode<Integer> node = nodesOp.get();
-            int size = list.size();
-            for (int i = 0; i < size; i++) {
-                if (!Objects.equals(list.get(i), node.value)) {
-                    System.err.println("removeValue: " + removeValue);
-                    System.err.println("Original: " + list);
-                    System.err.println("actual: " + deleteValue(node, removeValue));
+            DoubleNode<Integer> doubleNode = nodesOp.get();
+            for (Integer value : list) {
+                if (!Objects.equals(value, doubleNode.value)) {
+                    System.err.format(Locale.ROOT, "Remove value: %d\nExpect: %s\nActual: %s\n", removeValue,
+                            listOp, toList(doubleNode));
                     return;
                 }
-                node = node.next;
+                doubleNode = doubleNode.next;
             }
         }
     }
@@ -190,17 +188,33 @@ public class DoubleNode<T> {
      * @return <code>Integer</code>
      */
     private static Integer getRandomKind(DoubleNode<Integer> doubleNode) {
-        if (Objects.isNull(doubleNode)) {
-            return Integer.MAX_VALUE;
+        if (Objects.isNull(doubleNode) || Math.random() < 0.5) {
+            return -1;
         }
-        DoubleNode<Integer> next = doubleNode;
-        List<Integer> list = new ArrayList<>();
+
+        List<Integer> list = toList(doubleNode).get();
+        return list.get((int) (Math.random() * list.size()));
+    }
+
+    /**
+     * <p>遍历或者节点中的数据</p>
+     *
+     * @param doubleNode DoubleNode
+     * @return <code>List<T></code>
+     */
+    private static <T> Optional<List<T>> toList(DoubleNode<T> doubleNode) {
+        if (Objects.isNull(doubleNode)) {
+            return Optional.empty();
+        }
+
+        DoubleNode<T> next = doubleNode;
+        List<T> list = new ArrayList<>();
         do {
             list.add(next.value);
             next = next.next;
         } while (Objects.nonNull(next));
-        int size = list.size();
-        return Math.random() > 0.5 ? Integer.MIN_VALUE : list.get((int) (Math.random() * size));
+
+        return Optional.of(list);
     }
 
     /**
@@ -215,6 +229,7 @@ public class DoubleNode<T> {
         if (Objects.isNull(doubleNode)) {
             return Optional.empty();
         }
+
         DoubleNode<T> next = doubleNode;
         List<T> list = new ArrayList<>();
         do {
@@ -234,7 +249,7 @@ public class DoubleNode<T> {
      * @param <T>  元素类型
      * @return <code>List<Node<T>></code>
      */
-    private static <T> Optional<List<DoubleNode<T>>> toList(DoubleNode<T> head) {
+    private static <T> Optional<List<DoubleNode<T>>> toNodeList(DoubleNode<T> head) {
         if (Objects.isNull(head)) {
             return Optional.empty();
         }
@@ -261,25 +276,15 @@ public class DoubleNode<T> {
             return Optional.empty();
         }
 
-        DoubleNode<Integer> head = new DoubleNode<>(randomNumber(range));
+        DoubleNode<Integer> head = new DoubleNode<>((int) (Math.random() * range));
         DoubleNode<Integer> prev = head;
         while (depth-- > 1) {
-            DoubleNode<Integer> doubleNode = new DoubleNode<>(randomNumber(range));
+            DoubleNode<Integer> doubleNode = new DoubleNode<>((int) (Math.random() * range));
             prev.next = doubleNode;
             doubleNode.prev = prev;
             prev = doubleNode;
         }
 
         return Optional.of(head);
-    }
-
-    /**
-     * <p>随机生成范围中的一个数：{range, -range}</p>
-     *
-     * @param range 范围
-     * @return <code>int</code>
-     */
-    private static int randomNumber(int range) {
-        return ((int) (Math.random() * range) + 1) - ((int) (Math.random() * range) + 1);
     }
 }
