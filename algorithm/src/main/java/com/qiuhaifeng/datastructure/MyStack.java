@@ -117,7 +117,7 @@ public class MyStack {
         public E push(E value) {
             if (this.index >= this.capacity) {
                 throw new ArrayIndexOutOfBoundsException(String.format(Locale.ROOT, "Stack may be full! " +
-                        "capacity %d , current index %d", this.capacity, this.index));
+                        "capacity: %d , current index: %d", this.capacity, this.index + 1));
             }
             this.data[this.index++] = value;
             return value;
@@ -132,7 +132,7 @@ public class MyStack {
         public E pop() {
             if (isEmpty()) {
                 throw new ArrayIndexOutOfBoundsException(String.format(Locale.ROOT, "Stack may be empty! " +
-                        "capacity %d , current index %d", this.capacity, this.index));
+                        "current index: %d", this.index - 1));
             }
 
             return (E) this.data[--this.index];

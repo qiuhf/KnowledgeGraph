@@ -125,7 +125,7 @@ public class MyQueue {
         public E push(E value) {
             if (++this.size > this.capacity) {
                 throw new ArrayIndexOutOfBoundsException(String.format(Locale.ROOT, "Queue may be full! " +
-                        " capacity %d , current index %d", this.capacity, this.size));
+                        "capacity: %d , current index: %d", this.capacity, this.size));
             }
             this.data[this.popIdx] = value;
             this.popIdx = this.nextIndex(this.popIdx);
@@ -141,7 +141,7 @@ public class MyQueue {
         public E pop() {
             if (this.size-- <= 0) {
                 throw new ArrayIndexOutOfBoundsException(String.format(Locale.ROOT, "Queue may be empty! " +
-                        " capacity %d , current index %d", this.capacity, this.size ));
+                        "current index: %d", this.size ));
             }
 
             E value = (E) this.data[this.pushIdx];
