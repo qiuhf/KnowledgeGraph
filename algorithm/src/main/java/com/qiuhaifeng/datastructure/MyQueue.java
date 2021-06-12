@@ -217,9 +217,9 @@ public class MyQueue {
             IQueue<Integer> myQueue1 = new ArrayImplementQueue<>(oneTestDataNum);
             IQueue<Integer> myQueue2 = new DoubleLinkListImplementQueue<>();
             for (int j = 0; j < oneTestDataNum; j++) {
-                int value = (int) (Math.random() * range);
                 boolean empty = queue.isEmpty() && myQueue1.isEmpty() && myQueue2.isEmpty();
                 if (empty || Math.random() > 0.5) {
+                    int value = (int) (Math.random() * range);
                     queue.offer(value);
                     myQueue1.push(value);
                     myQueue2.push(value);

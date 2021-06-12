@@ -16,6 +16,7 @@
 
 package com.qiuhaifeng.bitop;
 
+import com.qiuhaifeng.util.AuxiliaryUtil;
 import org.springframework.util.StopWatch;
 
 import java.util.Arrays;
@@ -282,7 +283,7 @@ public class FindNumOfArray {
     }
 
     private static int[] randomArray(int maxGroup, int range, int kTime, int mTime) {
-        int kNum = randomNumber(range);
+        int kNum = AuxiliaryUtil.randomNumber(range);
         // 真命天子出现次数,80%几率出现kTime,
         kTime = Math.random() < 0.8 ? kTime : (int) (Math.random() * (mTime - 1)) + 1;
         // 出现多少组: [2, mGroup]
@@ -303,7 +304,7 @@ public class FindNumOfArray {
             int mNum;
             do {
                 // 数字已存在，重新生成
-                mNum = randomNumber(range);
+                mNum = AuxiliaryUtil.randomNumber(range);
             } while (numSet.contains(mNum));
             numSet.add(mNum);
 
@@ -325,15 +326,5 @@ public class FindNumOfArray {
         }
 
         return arr;
-    }
-
-    /**
-     * <p>随机生成范围中的一个数：{range, -range}</p>
-     *
-     * @param range 范围
-     * @return <code>int</code>
-     */
-    private static int randomNumber(int range) {
-        return ((int) (Math.random() * range) + 1) - ((int) (Math.random() * range) + 1);
     }
 }

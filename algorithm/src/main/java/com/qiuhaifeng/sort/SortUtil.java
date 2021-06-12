@@ -16,6 +16,8 @@
 
 package com.qiuhaifeng.sort;
 
+import com.qiuhaifeng.util.AuxiliaryUtil;
+
 import java.util.Arrays;
 
 /**
@@ -54,18 +56,18 @@ public class SortUtil {
     /**
      * <p>根据指定条件，生成随机数组</p>
      *
-     * @param maxLen   数组最大长度
-     * @param maxValue 最大值
+     * @param maxLen 数组最大长度
+     * @param range  范围
      * @return <code>int[]</code> 数组
      */
-    private static int[] generateRandomArray(int maxLen, int maxValue) {
+    private static int[] generateRandomArray(int maxLen, int range) {
         // Math.random()   [0,1)
         // Math.random() * N  [0,N)
         // (int)(Math.random() * N)  [0, N-1]
         int len = (int) ((maxLen + 1) * Math.random());
         int[] ints = new int[len];
         for (int i = 0; i < len; i++) {
-            ints[i] = (int) ((maxValue + 1) * Math.random()) - (int) (maxValue * Math.random());
+            ints[i] = AuxiliaryUtil.randomNumber(range);
         }
         return ints;
     }
@@ -91,15 +93,6 @@ public class SortUtil {
      */
     private static void printArray(String prefix, int[] arr) {
         System.out.println(prefix + ": " + Arrays.toString(arr));
-    }
-
-    /**
-     * <p>打印数组</p>
-     *
-     * @param arr 数组
-     */
-    public static void printArray(int[] arr) {
-        System.out.println(Arrays.toString(arr));
     }
 
     /**

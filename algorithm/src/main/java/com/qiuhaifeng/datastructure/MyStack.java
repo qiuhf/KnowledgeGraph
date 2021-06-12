@@ -16,8 +16,8 @@
 
 package com.qiuhaifeng.datastructure;
 
+import java.util.EmptyStackException;
 import java.util.Locale;
-import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Stack;
 
@@ -69,7 +69,7 @@ public class MyStack {
         @Override
         public E pop() {
             if (isEmpty()) {
-                throw new NoSuchElementException("Stack may be empty!");
+                throw new EmptyStackException();
             }
 
             E value = this.head.getValue();
@@ -197,9 +197,9 @@ public class MyStack {
             IStack<Integer> myStack1 = new ArrayImplementStack<>(oneTestDataNum);
             IStack<Integer> myStack2 = new DoubleLinkListImplementStack<>();
             for (int j = 0; j < oneTestDataNum; j++) {
-                int value = (int) (Math.random() * range);
                 boolean empty = stack.isEmpty() && myStack1.isEmpty() && myStack2.isEmpty();
                 if (empty || Math.random() > 0.5) {
+                    int value = (int) (Math.random() * range);
                     stack.push(value);
                     myStack1.push(value);
                     myStack2.push(value);
