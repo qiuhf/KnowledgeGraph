@@ -45,16 +45,11 @@ public class QueueImplementStack<E> {
      * @param value value
      * @return <code>E</code>
      */
-    public E offer(E value) {
-        if (isEmpty()) {
-            this.help.offer(value);
-            return value;
-        }
-
-        if (this.queue.isEmpty()) {
-            this.exchange(this.queue, this.help, value);
-        } else {
+    public E push(E value) {
+        if (this.help.isEmpty()) {
             this.exchange(this.help, this.queue, value);
+        } else {
+            this.exchange(this.queue, this.help, value);
         }
         return value;
     }
@@ -64,7 +59,7 @@ public class QueueImplementStack<E> {
      *
      * @return <code>E</code>
      */
-    public E poll() {
+    public E pop() {
         if (isEmpty()) {
             throw new EmptyStackException();
         }
@@ -103,9 +98,9 @@ public class QueueImplementStack<E> {
      */
     private void exchange(Queue<E> queue, Queue<E> origin, E value) {
         queue.offer(value);
-        do {
+        while (!origin.isEmpty()) {
             queue.offer(origin.poll());
-        } while (!origin.isEmpty());
+        }
     }
 
     // for test
@@ -120,7 +115,7 @@ public class QueueImplementStack<E> {
             if (empty || Math.random() > 0.5) {
                 int value = (int) (Math.random() * range);
                 stack.push(value);
-                myStack.offer(value);
+                myStack.push(value);
                 continue;
             }
 
@@ -130,7 +125,7 @@ public class QueueImplementStack<E> {
             }
 
             Integer pop = stack.pop();
-            Integer pop1 = myStack.poll();
+            Integer pop1 = myStack.pop();
             if (!Objects.equals(pop, pop1)) {
                 System.err.format("QueueImplementStack oops! Actual: %s, Expect: %s\n", pop1, pop);
                 return;
