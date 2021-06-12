@@ -60,25 +60,11 @@ public class QueueImplementStack<E> {
     }
 
     /**
-     * <p>将原队列所有元素追加到新队列中</p>
-     *
-     * @param queue  新队列
-     * @param origin 元队列
-     * @param value  值
-     */
-    private void exchange(Queue<E> queue, Queue<E> origin, E value) {
-        queue.offer(value);
-        do {
-            queue.offer(origin.poll());
-        } while (!origin.isEmpty());
-    }
-
-    /**
      * <p>移除此堆栈顶部的对象并返回该对象作为此函数的值</p>
      *
      * @return <code>E</code>
      */
-    public E pop() {
+    public E poll() {
         if (isEmpty()) {
             throw new EmptyStackException();
         }
@@ -108,6 +94,20 @@ public class QueueImplementStack<E> {
         return this.queue.isEmpty() && this.help.isEmpty();
     }
 
+    /**
+     * <p>将原队列所有元素追加到新队列中</p>
+     *
+     * @param queue  新队列
+     * @param origin 原队列
+     * @param value  值
+     */
+    private void exchange(Queue<E> queue, Queue<E> origin, E value) {
+        queue.offer(value);
+        do {
+            queue.offer(origin.poll());
+        } while (!origin.isEmpty());
+    }
+
     // for test
 
     public static void main(String[] args) {
@@ -130,7 +130,7 @@ public class QueueImplementStack<E> {
             }
 
             Integer pop = stack.pop();
-            Integer pop1 = myStack.pop();
+            Integer pop1 = myStack.poll();
             if (!Objects.equals(pop, pop1)) {
                 System.err.format("QueueImplementStack oops! Actual: %s, Expect: %s\n", pop1, pop);
                 return;

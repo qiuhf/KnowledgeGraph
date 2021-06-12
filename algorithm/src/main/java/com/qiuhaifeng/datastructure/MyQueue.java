@@ -70,7 +70,7 @@ public class MyQueue {
          * @return <code>E</code>
          */
         @Override
-        public E pop() {
+        public E poll() {
             if (isEmpty()) {
                 throw new NoSuchElementException("Queue may be empty!");
             }
@@ -138,7 +138,7 @@ public class MyQueue {
          * @return <code>E</code>
          */
         @Override
-        public E pop() {
+        public E poll() {
             if (this.size-- <= 0) {
                 throw new ArrayIndexOutOfBoundsException(String.format(Locale.ROOT, "Queue may be empty! " +
                         "current index: %d", this.size ));
@@ -189,7 +189,7 @@ public class MyQueue {
          *
          * @return <code>E</code>
          */
-        E pop();
+        E poll();
 
         /**
          * <p>队列是否为空</p>
@@ -227,13 +227,13 @@ public class MyQueue {
                 }
 
                 Integer pop = queue.remove();
-                Integer pop1 = myQueue1.pop();
+                Integer pop1 = myQueue1.poll();
                 if (!Objects.equals(pop1, pop)) {
                     System.err.format("ArrayImplementQueue oops! Actual: %s, Expect: %s\n", pop1, pop);
                     return;
                 }
 
-                Integer pop2 = myQueue2.pop();
+                Integer pop2 = myQueue2.poll();
                 if (!Objects.equals(pop2, pop)) {
                     System.err.format("DoubleLinkListImplementQueue oops! Actual: %s, Expect: %s\n", pop1, pop);
                     return;
@@ -255,7 +255,7 @@ public class MyQueue {
         }
         System.out.println("null");
         for (int i = 0; i < capacity; i++) {
-            System.out.print(queue.pop() + " <- ");
+            System.out.print(queue.poll() + " <- ");
         }
         System.out.print("null");
     }
