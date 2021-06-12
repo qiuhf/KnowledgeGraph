@@ -16,6 +16,8 @@
 
 package com.qiuhaifeng.datastructure;
 
+import java.util.Locale;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Stack;
 
@@ -38,40 +40,36 @@ public class MyStack {
     static class DoubleLinkListImplementStack<E> implements IStack<E> {
         private DoubleNode<E> head;
 
-        public DoubleLinkListImplementStack() {
-        }
-
         /**
          * <p>将一个value推到这个堆栈的顶部</p>
          *
          * @param value value
-         * @return <code>T</code>
+         * @return <code>E</code>
          */
         @Override
         public E push(E value) {
             if (isEmpty()) {
                 this.head = new DoubleNode<>();
                 this.head.setValue(value);
-                return value;
+            } else {
+                DoubleNode<E> top = new DoubleNode<>(value);
+                top.setNext(this.head);
+                this.head.setPrev(top);
+                this.head = top;
             }
 
-            DoubleNode<E> top = new DoubleNode<>(value);
-            top.setNext(this.head);
-            this.head.setPrev(top);
-            this.head = top;
-            
             return value;
         }
 
         /**
          * <p>移除此堆栈顶部的对象并返回该对象作为此函数的值</p>
          *
-         * @return <code>T</code>
+         * @return <code>E</code>
          */
         @Override
         public E pop() {
             if (isEmpty()) {
-                throw new ArrayIndexOutOfBoundsException("Stack may be empty!");
+                throw new NoSuchElementException("Stack may be empty!");
             }
 
             E value = this.head.getValue();
@@ -99,26 +97,27 @@ public class MyStack {
      * @param <E>
      */
     static class ArrayImplementStack<E> implements IStack<E> {
+        private final int capacity;
         private Object[] data;
-        private int maxLen;
         private int index;
 
         public ArrayImplementStack(int capacity) {
             this.index = 0;
-            this.maxLen = capacity;
-            this.data = new Object[capacity];
+            this.capacity = capacity;
+            this.data = new Object[this.capacity];
         }
 
         /**
          * <p>将一个value推到这个堆栈的顶部</p>
          *
          * @param value value
-         * @return <code>T</code>
+         * @return <code>E</code>
          */
         @Override
         public E push(E value) {
-            if (this.index >= this.maxLen) {
-                throw new ArrayIndexOutOfBoundsException("Stack may be full");
+            if (this.index >= this.capacity) {
+                throw new ArrayIndexOutOfBoundsException(String.format(Locale.ROOT, "Stack may be full! " +
+                        "capacity %d , current index %d", this.capacity, this.index));
             }
             this.data[this.index++] = value;
             return value;
@@ -127,15 +126,16 @@ public class MyStack {
         /**
          * <p>移除此堆栈顶部的对象并返回该对象作为此函数的值</p>
          *
-         * @return <code>T</code>
+         * @return <code>E</code>
          */
         @Override
         public E pop() {
-            if (!isEmpty()) {
-                return (E) this.data[--this.index];
+            if (isEmpty()) {
+                throw new ArrayIndexOutOfBoundsException(String.format(Locale.ROOT, "Stack may be empty! " +
+                        "capacity %d , current index %d", this.capacity, this.index));
             }
 
-            throw new ArrayIndexOutOfBoundsException("Stack may be empty!");
+            return (E) this.data[--this.index];
         }
 
         /**
@@ -159,14 +159,14 @@ public class MyStack {
          * <p>将一个value推到这个堆栈的顶部</p>
          *
          * @param value value
-         * @return <code>T</code>
+         * @return <code>E</code>
          */
         E push(E value);
 
         /**
          * <p>移除此堆栈顶部的对象并返回该对象作为此函数的值</p>
          *
-         * @return <code>T</code>
+         * @return <code>E</code>
          */
         E pop();
 
@@ -194,11 +194,12 @@ public class MyStack {
         int testTime = 100_000;
         for (int i = 0; i < testTime; i++) {
             Stack<Integer> stack = new Stack<>();
-            ArrayImplementStack<Integer> myStack1 = new ArrayImplementStack<>(oneTestDataNum);
-            DoubleLinkListImplementStack<Integer> myStack2 = new DoubleLinkListImplementStack<>();
+            IStack<Integer> myStack1 = new ArrayImplementStack<>(oneTestDataNum);
+            IStack<Integer> myStack2 = new DoubleLinkListImplementStack<>();
             for (int j = 0; j < oneTestDataNum; j++) {
                 int value = (int) (Math.random() * range);
-                if (stack.isEmpty() || Math.random() > 0.5) {
+                boolean empty = stack.isEmpty() && myStack1.isEmpty() && myStack2.isEmpty();
+                if (empty || Math.random() > 0.5) {
                     stack.push(value);
                     myStack1.push(value);
                     myStack2.push(value);
