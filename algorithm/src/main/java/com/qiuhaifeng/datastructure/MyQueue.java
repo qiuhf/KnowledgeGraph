@@ -49,7 +49,7 @@ public class MyQueue {
          * @return <code>E</code>
          */
         @Override
-        public E push(E value) {
+        public E offer(E value) {
             DoubleNode<E> node = new DoubleNode<>(value);
             if (isEmpty()) {
                 this.tail = node;
@@ -122,7 +122,7 @@ public class MyQueue {
          * @return <code>E</code>
          */
         @Override
-        public E push(E value) {
+        public E offer(E value) {
             if (++this.size > this.capacity) {
                 throw new ArrayIndexOutOfBoundsException(String.format(Locale.ROOT, "Queue may be full! " +
                         "capacity: %d , current index: %d", this.capacity, this.size));
@@ -182,7 +182,7 @@ public class MyQueue {
          * @param value value
          * @return <code>E</code>
          */
-        E push(E value);
+        E offer(E value);
 
         /**
          * <p>从队列的头部移除并返回一个value</p>
@@ -221,8 +221,8 @@ public class MyQueue {
                 if (empty || Math.random() > 0.5) {
                     int value = (int) (Math.random() * range);
                     queue.offer(value);
-                    myQueue1.push(value);
-                    myQueue2.push(value);
+                    myQueue1.offer(value);
+                    myQueue2.offer(value);
                     continue;
                 }
 
@@ -251,7 +251,7 @@ public class MyQueue {
      */
     private static void verifyStack(IQueue<Integer> queue, int capacity) {
         for (int i = 0; i < capacity; i++) {
-            System.out.print(queue.push(i) + " -> ");
+            System.out.print(queue.offer(i) + " -> ");
         }
         System.out.println("null");
         for (int i = 0; i < capacity; i++) {

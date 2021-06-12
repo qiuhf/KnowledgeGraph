@@ -45,7 +45,7 @@ public class QueueImplementStack<E> {
      * @param value value
      * @return <code>E</code>
      */
-    public E push(E value) {
+    public E offer(E value) {
         if (isEmpty()) {
             this.help.offer(value);
             return value;
@@ -120,7 +120,7 @@ public class QueueImplementStack<E> {
             if (empty || Math.random() > 0.5) {
                 int value = (int) (Math.random() * range);
                 stack.push(value);
-                myStack.push(value);
+                myStack.offer(value);
                 continue;
             }
 
