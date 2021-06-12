@@ -65,7 +65,7 @@ public class MyQueue {
         }
 
         /**
-         * <p>从队列的头部移除并返回一个value，</p>
+         * <p>从队列的头部移除并返回一个value</p>
          *
          * @return <code>E</code>
          */
@@ -133,7 +133,7 @@ public class MyQueue {
         }
 
         /**
-         * <p>从队列的头部移除一个value，并返回</p>
+         * <p>从队列的头部移除并返回一个value</p>
          *
          * @return <code>E</code>
          */
@@ -185,7 +185,7 @@ public class MyQueue {
         E push(E value);
 
         /**
-         * <p>从队列的头部移除一个value，并返回</p>
+         * <p>从队列的头部移除并返回一个value</p>
          *
          * @return <code>E</code>
          */
