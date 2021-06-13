@@ -41,7 +41,7 @@ import java.util.Objects;
  **/
 public class BubbleSort implements ISortable {
     public static void main(String[] args) {
-        SortUtil.check(new BubbleSort());
+        new BubbleSort().check();
     }
 
     /**
@@ -64,7 +64,7 @@ public class BubbleSort implements ISortable {
         for (int n = len - 1; n > 0; n--) {
             for (int i = 0; i < n; i++) {
                 if (arr[i] > arr[i + 1]) {
-                    SortUtil.swap(arr, i, i + 1);
+                    swap(arr, i, i + 1);
                 }
             }
         }

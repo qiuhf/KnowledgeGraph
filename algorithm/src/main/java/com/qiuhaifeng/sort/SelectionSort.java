@@ -39,7 +39,7 @@ import java.util.Objects;
  **/
 public class SelectionSort implements ISortable {
     public static void main(String[] args) {
-        SortUtil.check(new SelectionSort());
+        new SelectionSort().check();
     }
 
     /**
@@ -65,7 +65,7 @@ public class SelectionSort implements ISortable {
                 minIndex = arr[i] < arr[minIndex] ? i : minIndex;
             }
             if (n != minIndex) {
-                SortUtil.swap(arr, n, minIndex);
+                swap(arr, n, minIndex);
             }
         }
     }

@@ -35,7 +35,7 @@ import java.util.Objects;
  **/
 public class InsertionSort implements ISortable {
     public static void main(String[] args) {
-        SortUtil.check(new InsertionSort());
+        new InsertionSort().check();
     }
 
     /**
@@ -53,7 +53,7 @@ public class InsertionSort implements ISortable {
         for (int n = 1; n < len; n++) {
             // [0, n] 区间有序
             for (int i = n - 1; i >= 0 && arr[i] > arr[i + 1]; i--) {
-                SortUtil.swap(arr, i, i + 1);
+                swap(arr, i, i + 1);
             }
         }
     }

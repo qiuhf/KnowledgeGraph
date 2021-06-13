@@ -35,4 +35,36 @@ public class AuxiliaryUtil {
     public static int randomNumber(int range) {
         return ((int) (Math.random() * range) + 1) - ((int) (Math.random() * range) + 1);
     }
+
+    /**
+     * <p>根据指定条件，生成随机数组</p>
+     *
+     * @param maxLen 数组最大长度
+     * @param range  范围
+     * @return <code>int[]</code> 数组
+     */
+    public static int[] generateRandomArray(int maxLen, int range) {
+        // Math.random()   [0,1)
+        // Math.random() * N  [0,N)
+        // (int)(Math.random() * N)  [0, N-1]
+        int len = (int) ((maxLen + 1) * Math.random());
+        int[] ints = new int[len];
+        for (int i = 0; i < len; i++) {
+            ints[i] = randomNumber(range);
+        }
+        return ints;
+    }
+
+
+    /**
+     * <p>拷贝数组</p>
+     *
+     * @param arr1 arr1
+     * @return <code>int[]</code> 数组
+     */
+    public static int[] copyArray(int[] arr1) {
+        int[] arr2 = new int[arr1.length];
+        System.arraycopy(arr1, 0, arr2, 0, arr1.length);
+        return arr2;
+    }
 }

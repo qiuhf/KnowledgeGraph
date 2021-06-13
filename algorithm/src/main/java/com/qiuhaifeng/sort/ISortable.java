@@ -16,6 +16,11 @@
 
 package com.qiuhaifeng.sort;
 
+import com.qiuhaifeng.util.AuxiliaryUtil;
+
+import java.util.Arrays;
+import java.util.Locale;
+
 /**
  * ISortable
  *
@@ -29,4 +34,43 @@ public interface ISortable {
      * @param arr 数组
      */
     void sort(int[] arr);
+
+    /**
+     * <p>检验结果是否正确</p>
+     */
+    default void check() {
+        int testTime = 500000;
+        int maxSize = 100;
+        int maxValue = 100;
+        boolean succeed = true;
+        for (int i = 0; i < testTime; i++) {
+            int[] arr = AuxiliaryUtil.generateRandomArray(maxSize, maxValue);
+            int[] arr1 = AuxiliaryUtil.copyArray(arr);
+            int[] arr2 = AuxiliaryUtil.copyArray(arr);
+            // 自定义排查
+            this.sort(arr1);
+            // JDK自带排序
+            Arrays.sort(arr2);
+            if (!Arrays.equals(arr1, arr2)) {
+                succeed = false;
+                System.err.printf(Locale.ROOT,"Origin = %s\nActual = %s\nExpect = %s", Arrays.toString(arr), Arrays.toString(arr1), Arrays.toString(arr2));
+                break;
+            }
+        }
+
+        System.out.println(succeed ? "Nice!" : "Fucking fucked!");
+    }
+
+    /**
+     * <p>交换指定坐标值</p>
+     *
+     * @param arr 数据
+     * @param i   下标i
+     * @param j   下标j
+     */
+    default void swap(int[] arr, int i, int j) {
+        arr[i] = arr[i] ^ arr[j];
+        arr[j] = arr[i] ^ arr[j];
+        arr[i] = arr[i] ^ arr[j];
+    }
 }
