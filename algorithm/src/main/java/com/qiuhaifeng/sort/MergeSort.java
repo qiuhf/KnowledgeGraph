@@ -16,6 +16,9 @@
 
 package com.qiuhaifeng.sort;
 
+import com.qiuhaifeng.util.AuxiliaryUtil;
+
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -38,6 +41,11 @@ import java.util.Objects;
  **/
 public class MergeSort implements ISortable {
     public static void main(String[] args) {
+        int[] array = AuxiliaryUtil.generateRandomArray(20, 100);
+        System.out.println("array = " + Arrays.toString(array));
+        new MergeSort().sort2(array);
+        System.out.println("array = " + Arrays.toString(array));
+
         new MergeSort().check();
     }
 
@@ -83,24 +91,62 @@ public class MergeSort implements ISortable {
     private void merge(int[] arr, int left, int mid, int right) {
         int[] helper = new int[right - left + 1];
         int index = 0;
+        // 左组起始位
         int lPos = left;
+        // 右组起始位
         int rPos = mid + 1;
         while (lPos <= mid && rPos <= right) {
-            // 相等情况优先使用左值
+            // 相等情况优先copy左组值
             helper[index++] = arr[lPos] <= arr[rPos] ? arr[lPos++] : arr[rPos++];
         }
 
-        // 情况一，rPos先越界，将左剩余的值赋值到helper
+        // 情况一，右组先越界
         while (mid >= lPos) {
             helper[index++] = arr[lPos++];
         }
 
-        // 情况二，lPos先越界，将右剩余的值赋值到helper
+        // 情况二，左组先越界
         while (right >= rPos) {
             helper[index++] = arr[rPos++];
         }
 
-        // left之前的数已排好序，故从left位置开始
+        // 替换arr{L,R}上的数
         System.arraycopy(helper, 0, arr, left, helper.length);
+    }
+
+    /**
+     * <pre>非递归方式</pre>
+     *
+     * @param arr 数组
+     */
+    public void sort2(int[] arr) {
+        if (Objects.isNull(arr) || arr.length < 2) {
+            return;
+        }
+
+        int len = arr.length;
+        int limit = len >> 1;
+        // merge步长
+        int mergeSize = 1;
+        do {
+            int left = 0;
+            do {
+                // [L, M] 左组
+                int mid = left + mergeSize - 1;
+                if (mid >= len) {
+                    break;
+                }
+                // [L, M] [M+1, R]
+                int right = Math.min(mid + mergeSize, len - 1);
+                merge(arr, left, mid, right);
+                left = right + 1;
+            } while (left < len);
+
+            // 防止溢出
+            if (mergeSize > limit) {
+                break;
+            }
+            mergeSize <<= 1;
+        } while (mergeSize < len);
     }
 }
