@@ -23,39 +23,39 @@ import java.util.Objects;
 
 /**
  * <pre>
- *   归并排序，题型1：左边有多少个数比自己小(升序)
- *   在一个数组中，一个数左边比它小的数的总和，叫数的小和，所有数的小和累加起来，叫数组小和。求数组小和。
+ *   归并排序，题型2： 右边有多少个数比自己小（降序）
+ *   在一个数组中，一个右边比它小的数的，则称之为“逆序对”。求数组中有多少对逆序对。
  *   例子： [1,3,4,2,5]
- *      1左边比1小的数：没有
- *      3左边比3小的数：1
- *      4左边比4小的数：1、3
- *      2左边比2小的数：1
- *      5左边比5小的数：1、3、4、 2
- *      所以数组的小和为1+1+3+1+1+3+4+2=16
+ *      1右边比1小的数：没有
+ *      3右边比3小的数：(3, 2)
+ *      4右边比4小的数：(4, 2)
+ *      2右边比2小的数：没有
+ *      5右边比5小的数：没有
+ *      所以数组的逆序对个数为1+1=2
  * </pre>
  *
  * @author sz_qiuhf@163.com
  * @since 2021-06-14
  **/
-public class SmallSum {
+public class ReversePair {
     public static void main(String[] args) {
-        int len = 100;
-        int range = 1_000;
+        int len = 200;
+        int range = 10_000;
         int testTime = 100_000;
         for (int i = 0; i < testTime; i++) {
             int length = (int) (Math.random() * len);
             int[] randomArray = AuxiliaryUtil.generateRandomArray(length, range);
-            int checkSum = checkSum(randomArray);
-            int sum = sum(randomArray);
-            if (checkSum != sum) {
-                System.err.printf(Locale.ROOT, "Actual: %d, Expect: %d\n", sum, checkSum);
+            int checkPair = checkReversePair(randomArray);
+            int pair = reversePairNum(randomArray);
+            if (checkPair != pair) {
+                System.err.printf(Locale.ROOT, "Actual: %d, Expect: %d\n", pair, checkPair);
                 return;
             }
         }
         System.out.println("Nice!");
     }
 
-    public static int sum(int[] arr) {
+    public static int reversePairNum(int[] arr) {
         if (Objects.isNull(arr) || arr.length == 0) {
             return 0;
         }
@@ -74,48 +74,46 @@ public class SmallSum {
 
     private static int merge(int[] arr, int left, int mid, int right) {
         int[] helper = new int[right - left + 1];
-        int index = 0;
-        int lPos = left;
-        int rPos = mid + 1;
+        int index = helper.length - 1;
+        int lPos = mid;
+        int rPos = right;
         int ans = 0;
-        while (lPos <= mid && rPos <= right) {
-            // 相等优先copy右组
-            if (arr[lPos] < arr[rPos]) {
-                // 右组大产生小和
-                ans += arr[lPos] * (right - rPos + 1);
-                helper[index++] = arr[lPos++];
+        while (lPos >= left && rPos > mid) {
+            if (arr[lPos] > arr[rPos]) {
+                ans += rPos - mid;
+                helper[index--] = arr[lPos--];
             } else {
-                helper[index++] = arr[rPos++];
+                helper[index--] = arr[rPos--];
             }
         }
 
-        while (lPos <= mid) {
-            helper[index++] = arr[lPos++];
+        while (lPos >= left) {
+            helper[index--] = arr[lPos--];
         }
 
-        while (rPos <= right) {
-            helper[index++] = arr[rPos++];
+        while (rPos > mid) {
+            helper[index--] = arr[rPos--];
         }
 
         System.arraycopy(helper, 0, arr, left, helper.length);
         return ans;
     }
 
-    public static int checkSum(int[] arr) {
+    private static int checkReversePair(int[] arr) {
         if (Objects.isNull(arr) || arr.length == 0) {
             return 0;
         }
 
-        int ans = 0;
-        int len = arr.length - 1;
-        for (int i = len; i > 0; i--) {
-            for (int j = 0; j < i; j++) {
-                if (arr[j] < arr[i]) {
-                    ans += arr[j];
+        int len = arr.length;
+        int pair = 0;
+        for (int i = 0; i < len - 1; i++) {
+            for (int j = i + 1; j < len; j++) {
+                if (arr[i] > arr[j]) {
+                    pair++;
                 }
             }
         }
 
-        return ans;
+        return pair;
     }
 }
