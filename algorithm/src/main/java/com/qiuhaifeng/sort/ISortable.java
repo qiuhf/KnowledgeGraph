@@ -53,7 +53,7 @@ public interface ISortable {
             Arrays.sort(arr2);
             if (!Arrays.equals(arr1, arr2)) {
                 succeed = false;
-                System.err.printf(Locale.ROOT,"Origin = %s\nActual = %s\nExpect = %s", Arrays.toString(arr), Arrays.toString(arr1), Arrays.toString(arr2));
+                System.err.printf(Locale.ROOT, "Origin = %s\nActual = %s\nExpect = %s", Arrays.toString(arr), Arrays.toString(arr1), Arrays.toString(arr2));
                 break;
             }
         }
