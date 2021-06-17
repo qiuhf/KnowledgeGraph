@@ -39,16 +39,23 @@ public class NetherlandsFlag {
         if (array.length == 0) {
             return;
         }
-        int num = array[(int) (Math.random() * array.length)];
+        int num = Math.random() > 0.5 ? array[(int) (Math.random() * array.length)] : (int) (Math.random() * array.length);
         // num = 6;
         System.out.printf(Locale.ROOT, "Array: %s, num: %d\n", Arrays.toString(array), num);
-        partitions(array, num);
-        System.out.printf(Locale.ROOT, "Array: %s", Arrays.toString(array));
+        int[] partitions = partitions(array, num);
+        System.out.printf(Locale.ROOT, "Array: %s => %s\n", Arrays.toString(array), Arrays.toString(partitions));
     }
 
-    public static void partitions(int[] arr, int num) {
+    /**
+     * <p>以指定数字对数组进行划分（< num, = num, > num）, 返回等于num的区间下标</p>
+     *
+     * @param arr 数组
+     * @param num 值
+     * @return <code>int[]</code>
+     */
+    public static int[] partitions(int[] arr, int num) {
         if (Objects.isNull(arr) || arr.length == 0) {
-            return;
+            return new int[]{-1, -1};
         }
 
         int less = -1;
@@ -63,9 +70,15 @@ public class NetherlandsFlag {
                 swap(arr, index, --bigger);
             }
         } while (index < bigger);
+        // 没有对应的num
+        if (less >= bigger - 1 || bigger <= 0) {
+            return new int[]{-1, -1};
+        }
+        return new int[]{less + 1, bigger - 1};
     }
 
     private static void swap(int[] arr, int i, int j) {
+        // 额外空间复杂度O(1)
         int tmp = arr[i];
         arr[i] = arr[j];
         arr[j] = tmp;
