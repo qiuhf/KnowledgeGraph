@@ -39,9 +39,9 @@ public interface ISortable {
      * <p>检验结果是否正确</p>
      */
     default void check() {
-        int testTime = 500000;
-        int maxSize = 100;
-        int maxValue = 100;
+        int testTime = 100_000;
+        int maxSize = 200;
+        int maxValue = 2_000;
         boolean succeed = true;
         for (int i = 0; i < testTime; i++) {
             int[] arr = AuxiliaryUtil.generateRandomArray(maxSize, maxValue);
@@ -53,7 +53,8 @@ public interface ISortable {
             Arrays.sort(arr2);
             if (!Arrays.equals(arr1, arr2)) {
                 succeed = false;
-                System.err.printf(Locale.ROOT, "Origin = %s\nActual = %s\nExpect = %s", Arrays.toString(arr), Arrays.toString(arr1), Arrays.toString(arr2));
+                System.err.printf(Locale.ROOT, "Origin = %s\nActual = %s\nExpect = %s\n", Arrays.toString(arr),
+                        Arrays.toString(arr1), Arrays.toString(arr2));
                 break;
             }
         }
@@ -72,5 +73,18 @@ public interface ISortable {
         arr[i] = arr[i] ^ arr[j];
         arr[j] = arr[i] ^ arr[j];
         arr[i] = arr[i] ^ arr[j];
+    }
+
+    /**
+     * <p>交换指定坐标值</p>
+     *
+     * @param arr 数据
+     * @param i   下标i
+     * @param j   下标j
+     */
+    default void swap2(int[] arr, int i, int j) {
+        int tmp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = tmp;
     }
 }
