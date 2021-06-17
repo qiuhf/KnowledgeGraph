@@ -17,6 +17,7 @@
 package com.qiuhaifeng.sort;
 
 import java.util.Objects;
+import java.util.Stack;
 
 /**
  * <pre>
@@ -50,14 +51,23 @@ public class QuickSort implements ISortable {
             return;
         }
 
-        // 快速排序3.0版本
-        quickSort3(arr, 0, arr.length - 1);
-
-        // 快速排序1.0版本
-        quickSort1(arr, 0, arr.length - 1);
-
-        // 快速排序2.0版本
-        quickSort2(arr, 0, arr.length - 1);
+        switch ((int) (Math.random() * 4) + 1) {
+            case 1:
+                // 快速排序1.0版本
+                quickSort1(arr, 0, arr.length - 1);
+                break;
+            case 2:
+                // 快速排序2.0版本
+                quickSort2(arr, 0, arr.length - 1);
+                break;
+            case 3:
+                // 快速排序3.0版本
+                quickSort3(arr, 0, arr.length - 1);
+                break;
+            default:
+                // 快速排序3.0版本，非递归
+                quickSort(arr, 0, arr.length - 1);
+        }
     }
 
     /**
@@ -136,6 +146,30 @@ public class QuickSort implements ISortable {
         int[] equalArea = netherLandFlag(arr, left, right);
         this.quickSort2(arr, left, equalArea[0] - 1);
         this.quickSort2(arr, equalArea[1] + 1, right);
+    }
+
+    /**
+     * <p>快排3.0 非递归版本</p>
+     *
+     * @param arr   数组
+     * @param left  左边界
+     * @param right 有边界
+     */
+    private void quickSort(int[] arr, int left, int right) {
+        swap2(arr, left + (int) (Math.random() * (right + 1)), right);
+        int[] equalsArea = netherLandFlag(arr, 0, right);
+        Stack<Integer[]> stack = new Stack<>();
+        stack.push(new Integer[]{0, equalsArea[0] - 1});
+        stack.push(new Integer[]{equalsArea[1] + 1, right});
+        do {
+            Integer[] range = stack.pop();
+            if (range[0] < range[1]) {
+                swap2(arr, range[0] + (int) (Math.random() * (range[1] - range[0] + 1)), range[1]);
+                equalsArea = netherLandFlag(arr, range[0], range[1]);
+                stack.push(new Integer[]{range[0], equalsArea[0] - 1});
+                stack.push(new Integer[]{equalsArea[1] + 1, range[1]});
+            }
+        } while (!stack.isEmpty());
     }
 
     private int[] netherLandFlag(int[] arr, int left, int right) {
