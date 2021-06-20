@@ -16,6 +16,8 @@
 
 package com.qiuhaifeng.bitop;
 
+import com.qiuhaifeng.util.AuxiliaryUtil;
+
 /**
  * <pre>
  *    怎么把一个int类型的数，提取出最左侧的1来
@@ -26,10 +28,12 @@ package com.qiuhaifeng.bitop;
  **/
 public class FIndMoreLeftOne {
     public static void main(String[] args) {
-        int num = 17;
-        while ((num &(num-1))!=0) {
-            num &= num-1;
+        int num = AuxiliaryUtil.randomNumber(20);
+        System.out.println("num = " + num);
+        while ((num & (num - 1)) != 0) {
+            num &= num - 1;
         }
-        System.out.println(num);
+
+        System.out.println("More left one = " + num);
     }
 }

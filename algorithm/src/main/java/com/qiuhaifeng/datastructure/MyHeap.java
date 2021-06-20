@@ -132,10 +132,10 @@ public class MyHeap {
          * @param index 当前位置
          */
         private void heapInsert(int index) {
-            for (int parent = (index - 1) >> 1; index > 0 && ((T) this.heap[index]).compareTo((T) this.heap[parent]) > 0; parent =
+            for (int i = (index - 1) >> 1; index > 0 && ((T) this.heap[index]).compareTo((T) this.heap[i]) > 0; i =
                     (index - 1) >> 1) {
-                this.swap(this.heap, index, parent);
-                index = parent;
+                this.swap(this.heap, index, i);
+                index = i;
             }
         }
 
