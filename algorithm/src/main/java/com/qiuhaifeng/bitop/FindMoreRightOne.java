@@ -24,7 +24,7 @@ package com.qiuhaifeng.bitop;
  * @author sz_qiuhf@163.com
  * @since 2021-05-19
  **/
-public class FindFarRightOne {
+public class FindMoreRightOne {
     public static void main(String[] args) {
         int num = 7;
         System.out.println(num & (-num));
