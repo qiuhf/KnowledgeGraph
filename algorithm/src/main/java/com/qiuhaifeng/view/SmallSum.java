@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.qiuhaifeng.sort;
+package com.qiuhaifeng.view;
 
 import com.qiuhaifeng.util.AuxiliaryUtil;
 
