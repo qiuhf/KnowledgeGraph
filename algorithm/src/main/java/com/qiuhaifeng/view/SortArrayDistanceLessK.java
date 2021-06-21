@@ -60,7 +60,7 @@ public class SortArrayDistanceLessK {
      * @param arr       数组
      * @param distanceK 最大移动距离
      */
-    private static void sort(int[] arr, int distanceK) {
+    public static void sort(int[] arr, int distanceK) {
         if (Objects.isNull(arr) || arr.length < 2 || distanceK == 0) {
             return;
         }
@@ -87,7 +87,7 @@ public class SortArrayDistanceLessK {
         }
     }
 
-    public static int randomArrayMoveLessK(int[] arr, int distanceK) {
+    private static int randomArrayMoveLessK(int[] arr, int distanceK) {
         // 排好序后开始随意交换，但是保证每个数距离不超过K
         Arrays.sort(arr);
         int len = arr.length;
