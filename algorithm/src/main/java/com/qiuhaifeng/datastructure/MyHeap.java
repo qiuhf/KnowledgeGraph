@@ -132,10 +132,9 @@ public class MyHeap {
          * @param index 当前位置
          */
         private void heapInsert(int index) {
-            for (int i = (index - 1) >> 1; index > 0 && ((T) this.heap[index]).compareTo((T) this.heap[i]) > 0; i =
-                    (index - 1) >> 1) {
-                this.swap(this.heap, index, i);
-                index = i;
+            while (((T) this.heap[index]).compareTo((T) this.heap[(index - 1) / 2]) > 0) {
+                this.swap(this.heap, index, (index - 1) / 2);
+                index = (index - 1) / 2;
             }
         }
 
@@ -150,7 +149,7 @@ public class MyHeap {
          * @param heapSize 当前堆大小
          */
         private void heapify(Object[] heap, int index, int heapSize) {
-            for (int left = 1 + (index << 1); left < heapSize; left = 1 + (index << 1)) {
+            for (int left = 1 + (index << 1); left != -1 && left < heapSize; left = 1 + (index << 1)) {
                 // 右子节点，可能有可能没有！
                 int right = left + 1;
                 // 相等情况，取左节点

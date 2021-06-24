@@ -84,9 +84,9 @@ public class HeapSort implements ISortable {
      * @param index 当前位置
      */
     private void heapInsert(int[] arr, int index) {
-        for (int i = (index - 1) >> 1; index > 0 && arr[index] > arr[i]; i = (index - 1) >> 1) {
-            swap(arr, index, i);
-            index = i;
+        while (arr[index] > arr[(index - 1) / 2]) {
+            swap(arr, index, (index - 1) / 2);
+            index = (index - 1) / 2;
         }
     }
 
@@ -101,7 +101,7 @@ public class HeapSort implements ISortable {
      * @param heapSize 当前堆大小
      */
     private void heapify(int[] arr, int index, int heapSize) {
-        for (int left = 1 + (index << 1); left < heapSize; left = 1 + (index << 1)) {
+        for (int left = 1 + (index << 1); left != -1 && left < heapSize; left = 1 + (index << 1)) {
             int right = left + 1;
             // 两个子节点中，谁的值大，把下标给largest
             // 1）只有左子节点，left -> largest
