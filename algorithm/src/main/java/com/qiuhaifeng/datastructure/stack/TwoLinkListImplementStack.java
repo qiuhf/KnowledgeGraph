@@ -16,26 +16,21 @@
 
 package com.qiuhaifeng.datastructure.stack;
 
+import com.qiuhaifeng.datastructure.linkedlist.DoubleNode;
+
 import java.util.EmptyStackException;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.Objects;
 
 /**
  * <pre>
- *     用队列结构实现栈结构
+ *   用双向链表构实现栈结构
  * </pre>
  *
  * @author sz_qiuhf@163.com
- * @since 2021-06-13
+ * @since 2021-06-05
  **/
-public class QueueImplementStack<E> implements IStack<E> {
-    private final Queue<E> queue;
-    private final Queue<E> help;
-
-    public QueueImplementStack() {
-        this.queue = new LinkedList<>();
-        this.help = new LinkedList<>();
-    }
+public class TwoLinkListImplementStack<E> implements IStack<E> {
+    private DoubleNode<E> head;
 
     /**
      * <p>将一个value推到这个堆栈的顶部</p>
@@ -45,11 +40,16 @@ public class QueueImplementStack<E> implements IStack<E> {
      */
     @Override
     public E push(E value) {
-        if (this.help.isEmpty()) {
-            this.exchange(this.help, this.queue, value);
+        if (isEmpty()) {
+            this.head = new DoubleNode<>();
+            this.head.setValue(value);
         } else {
-            this.exchange(this.queue, this.help, value);
+            DoubleNode<E> top = new DoubleNode<>(value);
+            top.setNext(this.head);
+            this.head.setPrev(top);
+            this.head = top;
         }
+
         return value;
     }
 
@@ -64,21 +64,22 @@ public class QueueImplementStack<E> implements IStack<E> {
             throw new EmptyStackException();
         }
 
-        return this.queue.isEmpty() ? this.help.poll() : this.queue.poll();
+        E value = this.head.getValue();
+        this.head = this.head.getNext();
+        if (Objects.nonNull(this.head)) {
+            this.head.setPrev(null);
+        }
+        return value;
     }
 
     /**
-     * <p>返回此堆栈顶部对象的值</p>
+     * <p>返回栈顶部对象的值</p>
      *
      * @return <code>E</code>
      */
     @Override
     public E peek() {
-        if (isEmpty()) {
-            throw new EmptyStackException();
-        }
-
-        return this.queue.isEmpty() ? this.help.peek() : this.queue.peek();
+        return this.head.getValue();
     }
 
     /**
@@ -88,27 +89,13 @@ public class QueueImplementStack<E> implements IStack<E> {
      */
     @Override
     public boolean isEmpty() {
-        return this.queue.isEmpty() && this.help.isEmpty();
-    }
-
-    /**
-     * <p>将原队列所有元素追加到新队列中</p>
-     *
-     * @param queue  新队列
-     * @param origin 原队列
-     * @param value  值
-     */
-    private void exchange(Queue<E> queue, Queue<E> origin, E value) {
-        queue.offer(value);
-        while (!origin.isEmpty()) {
-            queue.offer(origin.poll());
-        }
+        return Objects.isNull(this.head);
     }
 
     // for test
 
     public static void main(String[] args) {
-        new QueueImplementStack<>().checked(6);
-        new QueueImplementStack<>().verify(aVoid -> new QueueImplementStack<>());
+        new TwoLinkListImplementStack<>().checked(6);
+        new TwoLinkListImplementStack<>().verify(aVoid -> new TwoLinkListImplementStack<>());
     }
 }
