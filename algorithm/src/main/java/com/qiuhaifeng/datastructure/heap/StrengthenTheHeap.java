@@ -312,7 +312,11 @@ public class StrengthenTheHeap<E> {
             }
             // 复位节点坐标
             int index = mark & (~(1 << cur));
-            this.index.put(node, index);
+            if (index == 0) {
+                this.index.remove(node);
+            } else {
+                this.index.put(node, index);
+            }
         }
     }
 }
