@@ -174,9 +174,9 @@ public class StrengthenTheHeap<E> {
         return new ArrayList<>(this.heap);
     }
 
-    public List<E> sort(){
+    public List<E> sort() {
         List<E> ans = new ArrayList<>();
-        while (!this.isEmpty()){
+        while (!this.isEmpty()) {
             ans.add(this.pop());
         }
         return ans;
@@ -278,7 +278,10 @@ public class StrengthenTheHeap<E> {
         }
 
         private void upset(E node, int cur, int oldIndex) {
-            int mark = this.index.get(node);
+            Integer mark = this.index.get(node);
+            if (Objects.isNull(mark)) {
+                return;
+            }
             // 复位节点旧坐标，设置新坐标
             int index = mark & (~(1 << oldIndex)) | (1 << cur);
             this.index.put(node, index);
@@ -303,7 +306,10 @@ public class StrengthenTheHeap<E> {
         }
 
         private void remove(E node, int cur) {
-            int mark = this.index.get(node);
+            Integer mark = this.index.get(node);
+            if (Objects.isNull(mark)) {
+                return;
+            }
             // 复位节点坐标
             int index = mark & (~(1 << cur));
             this.index.put(node, index);
