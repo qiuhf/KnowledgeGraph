@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.qiuhaifeng.datastructure;
+package com.qiuhaifeng.datastructure.queue;
 
 import java.util.LinkedList;
 import java.util.NoSuchElementException;

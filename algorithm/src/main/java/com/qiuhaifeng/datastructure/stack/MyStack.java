@@ -14,7 +14,9 @@
  *  limitations under the License.
  */
 
-package com.qiuhaifeng.datastructure;
+package com.qiuhaifeng.datastructure.stack;
+
+import com.qiuhaifeng.datastructure.linkedlist.DoubleNode;
 
 import java.util.EmptyStackException;
 import java.util.Locale;

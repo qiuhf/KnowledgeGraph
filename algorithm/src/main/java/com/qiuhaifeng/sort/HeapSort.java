@@ -16,6 +16,7 @@
 
 package com.qiuhaifeng.sort;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -33,7 +34,15 @@ import java.util.Objects;
  **/
 public class HeapSort implements ISortable {
     public static void main(String[] args) {
-        new HeapSort().check();
+//        new HeapSort().check();
+        HeapSort heapSort = new HeapSort();
+        int[] arr = new int[15];
+        for (int i = 0; i < arr.length;i++){
+            arr[i]=i;
+        }
+        System.out.println("arr = " + Arrays.toString(arr));
+        heapSort.sort(arr);
+        System.out.println("arr = " + Arrays.toString(arr));
     }
 
     /**
@@ -65,7 +74,7 @@ public class HeapSort implements ISortable {
         for (int i = (cursor - 1) & (~1); i >= 0; i--) {
             this.heapify(arr, i, heapSize);
         }
-
+        System.out.println("arr = " + Arrays.toString(arr));
         do {
             // 堆的最大值和堆末尾的值交换, 时间复杂度： O(1)
             swap2(arr, 0, --heapSize);
@@ -101,7 +110,7 @@ public class HeapSort implements ISortable {
      * @param heapSize 当前堆大小
      */
     private void heapify(int[] arr, int index, int heapSize) {
-        for (int left = 1 + (index << 1); left != -1 && left < heapSize; left = 1 + (index << 1)) {
+        for (int left = 1 + (index << 1); left >0 && left < heapSize; left = 1 + (index << 1)) {
             int right = left + 1;
             // 两个子节点中，谁的值大，把下标给largest
             // 1）只有左子节点，left -> largest

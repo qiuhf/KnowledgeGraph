@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.qiuhaifeng.datastructure;
+package com.qiuhaifeng.datastructure.stack;
 
 import java.util.EmptyStackException;
 import java.util.LinkedList;

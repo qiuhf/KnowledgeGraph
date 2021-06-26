@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.qiuhaifeng.datastructure;
+package com.qiuhaifeng.datastructure.linkedlist;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +23,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
+ * <pre>单链表</pre>
+ *
  * @author sz_qiuhf@163.com
  * @since 2021-06-05
  **/

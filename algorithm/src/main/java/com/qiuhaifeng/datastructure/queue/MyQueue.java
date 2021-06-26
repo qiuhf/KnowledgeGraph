@@ -14,7 +14,9 @@
  *  limitations under the License.
  */
 
-package com.qiuhaifeng.datastructure;
+package com.qiuhaifeng.datastructure.queue;
+
+import com.qiuhaifeng.datastructure.linkedlist.DoubleNode;
 
 import java.util.LinkedList;
 import java.util.Locale;
