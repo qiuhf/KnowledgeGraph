@@ -16,25 +16,22 @@
 
 package com.qiuhaifeng.datastructure.queue;
 
+import com.qiuhaifeng.datastructure.linkedlist.DoubleNode;
+
 import java.util.NoSuchElementException;
-import java.util.Stack;
+import java.util.Objects;
 
 /**
  * <pre>
- *     用栈结构实现队列结构
+ *    用双向链表结构实现队列结构
  * </pre>
  *
  * @author sz_qiuhf@163.com
- * @since 2021-06-13
+ * @since 2021-06-05
  **/
-public class StackImplementQueue<E> implements IQueue<E> {
-    private final Stack<E> stackPush;
-    private final Stack<E> stackPop;
-
-    public StackImplementQueue() {
-        this.stackPush = new Stack<>();
-        this.stackPop = new Stack<>();
-    }
+public class TwoLinkListImplementQueue<E> implements IQueue<E> {
+    private DoubleNode<E> head;
+    private DoubleNode<E> tail;
 
     /**
      * <p>将一个value添加到队列的头部</p>
@@ -44,8 +41,17 @@ public class StackImplementQueue<E> implements IQueue<E> {
      */
     @Override
     public E offer(E value) {
-        this.stackPush.push(value);
-        this.pushToPop();
+        DoubleNode<E> node = new DoubleNode<>(value);
+        if (isEmpty()) {
+            this.tail = node;
+            this.head = node;
+            return value;
+        } else {
+            node.setNext(this.head);
+            this.head.setPrev(node);
+            this.head = node;
+        }
+
         return value;
     }
 
@@ -57,25 +63,19 @@ public class StackImplementQueue<E> implements IQueue<E> {
     @Override
     public E poll() {
         if (isEmpty()) {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("Queue may be empty!");
         }
 
-        this.pushToPop();
-        return this.stackPop.pop();
-    }
-
-    /**
-     * <p>从队列的头部返回一个value</p>
-     *
-     * @return <code>E</code>
-     */
-    public E peek() {
-        if (isEmpty()) {
-            throw new NoSuchElementException();
+        E value = this.tail.getValue();
+        if (this.head.equals(this.tail)) {
+            this.head = null;
+            this.tail = null;
+        } else {
+            this.tail = tail.getPrev();
+            this.tail.setNext(null);
         }
 
-        this.pushToPop();
-        return this.stackPop.peek();
+        return value;
     }
 
     /**
@@ -85,26 +85,13 @@ public class StackImplementQueue<E> implements IQueue<E> {
      */
     @Override
     public boolean isEmpty() {
-        return this.stackPush.isEmpty() && this.stackPop.isEmpty();
-    }
-
-    /**
-     * <p>将原栈所有元素追加到新栈中</p>
-     */
-    private void pushToPop() {
-        if (!this.stackPop.isEmpty()) {
-            return;
-        }
-
-        do {
-            this.stackPop.push(this.stackPush.pop());
-        } while (!this.stackPush.isEmpty());
+        return Objects.isNull(this.head);
     }
 
     // for test
 
     public static void main(String[] args) {
-        new StackImplementQueue<>().checked(6);
-        new StackImplementQueue<>().verify(aVoid -> new StackImplementQueue<>());
+        new TwoLinkListImplementQueue<>().checked(6);
+        new TwoLinkListImplementQueue<>().verify(aVoid -> new TwoLinkListImplementQueue<>());
     }
 }
