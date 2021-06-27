@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.qiuhaifeng.datastructure.heap;
+package com.qiuhaifeng.datastructure.tree.heap;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -31,7 +31,11 @@ import java.util.Objects;
  * @author sz_qiuhf@163.com
  * @since 2021-06-23
  **/
-public class StrengthenTheHeap<E> {
+public class StrengthenTheHeap<E> implements IHeap<E> {
+    public static void main(String[] args) {
+        new StrengthenTheHeap<Integer>().checked(12);
+    }
+
     /**
      * 堆
      */
@@ -73,6 +77,7 @@ public class StrengthenTheHeap<E> {
      * @param node node
      * @return <code>E</code>
      */
+    @Override
     public E push(E node) {
         if (Objects.isNull(node)) {
             throw new NullPointerException("Node is null");
@@ -89,6 +94,7 @@ public class StrengthenTheHeap<E> {
      *
      * @return <code>E</code>
      */
+    @Override
     public E pop() {
         E node = this.heap.get(0);
         this.swap(0, this.heapSize - 1);
@@ -132,6 +138,7 @@ public class StrengthenTheHeap<E> {
      *
      * @return <code>E</code>
      */
+    @Override
     public E peek() {
         return this.heap.get(0);
     }
@@ -141,6 +148,7 @@ public class StrengthenTheHeap<E> {
      *
      * @return <code>boolean</code>
      */
+    @Override
     public boolean isEmpty() {
         return this.heapSize == 0;
     }
@@ -150,6 +158,7 @@ public class StrengthenTheHeap<E> {
      *
      * @return <code>int</code>
      */
+    @Override
     public int size() {
         return this.heapSize;
     }
@@ -161,7 +170,6 @@ public class StrengthenTheHeap<E> {
      * @return <code>boolean</code>
      */
     public boolean contains(E node) {
-//        return this.indexMap.containsKey(node);
         return this.nodeIndex.contains(node);
     }
 
@@ -172,14 +180,6 @@ public class StrengthenTheHeap<E> {
      */
     public List<E> getAllElements() {
         return new ArrayList<>(this.heap);
-    }
-
-    public List<E> sort() {
-        List<E> ans = new ArrayList<>();
-        while (!this.isEmpty()) {
-            ans.add(this.pop());
-        }
-        return ans;
     }
 
     /**
@@ -297,7 +297,7 @@ public class StrengthenTheHeap<E> {
             while ((mark & (1 << index)) == 0) {
                 index++;
             }
-            // 取出最小坐标的节点
+            // 相同情况，取出最早加入的节点
             return index;
         }
 

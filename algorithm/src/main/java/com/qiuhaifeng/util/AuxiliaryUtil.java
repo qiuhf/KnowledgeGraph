@@ -32,7 +32,7 @@ public class AuxiliaryUtil {
      * @param range 范围
      * @return <code>int</code>
      */
-    public static int randomNumber(int range) {
+    public static Integer randomNumber(int range) {
         return ((int) (Math.random() * range) + 1) - ((int) (Math.random() * range) + 1);
     }
 
