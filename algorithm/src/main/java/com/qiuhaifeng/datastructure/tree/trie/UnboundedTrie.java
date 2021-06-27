@@ -30,10 +30,6 @@ import java.util.Optional;
  * @since 2021-06-27
  **/
 public class UnboundedTrie implements ITrieOperation {
-    public static void main(String[] args) {
-        ITrieOperation.logarithm(size -> new UnboundedTrie());
-    }
-
     private Node root;
 
     public UnboundedTrie() {
@@ -129,13 +125,17 @@ public class UnboundedTrie implements ITrieOperation {
         return Optional.ofNullable(node);
     }
 
-    class Node {
+    static class Node {
         private int pass;
         private int end;
         private Map<Integer, Node> nodeMap;
 
-        public Node() {
+        Node() {
             this.nodeMap = new HashMap<>();
         }
+    }
+
+    public static void main(String[] args) {
+        ITrieOperation.logarithm(size -> new UnboundedTrie());
     }
 }

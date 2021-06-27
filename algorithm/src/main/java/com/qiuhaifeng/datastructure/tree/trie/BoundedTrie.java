@@ -28,10 +28,6 @@ import java.util.Optional;
  * @since 2021-06-27
  **/
 public class BoundedTrie implements ITrieOperation {
-    public static void main(String[] args) {
-        ITrieOperation.logarithm(BoundedTrie::new);
-    }
-
     private final int capacity;
     private Node root;
 
@@ -148,13 +144,17 @@ public class BoundedTrie implements ITrieOperation {
         return Optional.ofNullable(node);
     }
 
-    class Node {
+    static class Node {
         private int pass;
         private int end;
         private Node[] next;
 
-        public Node(int capacity) {
+        Node(int capacity) {
             this.next = new Node[capacity];
         }
+    }
+
+    public static void main(String[] args) {
+        ITrieOperation.logarithm(BoundedTrie::new);
     }
 }
