@@ -65,13 +65,13 @@ public interface IStack<E> {
      *
      * @param callback callback
      */
-    default void verify(Function<Void, IStack<Integer>> callback) {
+    static void logarithm(Function<Integer, IStack<Integer>> callback) {
         int range = 20_000;
         int oneTestDataNum = 100;
         int testTime = 100_000;
         for (int i = 0; i < testTime; i++) {
             Stack<Integer> stack = new Stack<>();
-            IStack<Integer> myStack = callback.apply(null);
+            IStack<Integer> myStack = callback.apply(oneTestDataNum);
             for (int j = 0; j < oneTestDataNum; j++) {
                 boolean empty = stack.isEmpty() && myStack.isEmpty();
                 if (empty || Math.random() > 0.5) {
@@ -94,21 +94,5 @@ public interface IStack<E> {
             }
         }
         System.out.println("Nice!");
-    }
-
-    /**
-     * <p>验证自定义队列</p>
-     *
-     * @param capacity 次数
-     */
-    default void checked(int capacity) {
-        for (Integer i = 0; i < capacity; i++) {
-            System.out.print(this.push((E) i) + " -> ");
-        }
-        System.out.println("null");
-        for (int i = 0; i < capacity; i++) {
-            System.out.print(this.pop() + " <- ");
-        }
-        System.out.print("null\n");
     }
 }

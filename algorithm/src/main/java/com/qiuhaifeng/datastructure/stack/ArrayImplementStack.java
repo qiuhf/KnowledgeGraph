@@ -93,7 +93,6 @@ public class ArrayImplementStack<E> implements IStack<E> {
     // for test
 
     public static void main(String[] args) {
-        new ArrayImplementStack<>(6).checked(6);
-        new ArrayImplementStack<>(100).verify(aVoid -> new ArrayImplementStack<>(100));
+        IStack.logarithm(ArrayImplementStack::new);
     }
 }

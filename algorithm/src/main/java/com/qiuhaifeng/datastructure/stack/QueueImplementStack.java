@@ -105,10 +105,7 @@ public class QueueImplementStack<E> implements IStack<E> {
         }
     }
 
-    // for test
-
     public static void main(String[] args) {
-        new QueueImplementStack<>().checked(6);
-        new QueueImplementStack<>().verify(aVoid -> new QueueImplementStack<>());
+        IStack.logarithm(size -> new QueueImplementStack<>());
     }
 }

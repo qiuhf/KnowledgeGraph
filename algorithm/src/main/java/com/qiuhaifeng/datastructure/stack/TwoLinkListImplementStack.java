@@ -95,7 +95,6 @@ public class TwoLinkListImplementStack<E> implements IStack<E> {
     // for test
 
     public static void main(String[] args) {
-        new TwoLinkListImplementStack<>().checked(6);
-        new TwoLinkListImplementStack<>().verify(aVoid -> new TwoLinkListImplementStack<>());
+        IStack.logarithm(size -> new TwoLinkListImplementStack<>());
     }
 }

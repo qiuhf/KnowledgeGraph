@@ -101,7 +101,7 @@ public class GetMinStack<E extends Comparable<E>> extends Stack<E> {
 
                 Integer min = dataList.stream().min(Integer::compareTo).get();
                 if (!Objects.equals(minStack.getMin(), min)) {
-                    System.err.format("GetMinStack oops! Actual: %s, Expect: %s\n", minStack.getMin(), min);
+                    System.err.format("Oops GetMinStack! Actual: %s, Expect: %s\n", minStack.getMin(), min);
                     return;
                 }
 
@@ -109,11 +109,12 @@ public class GetMinStack<E extends Comparable<E>> extends Stack<E> {
                 int index = dataList.size() - 1;
                 Integer expect = dataList.remove(index);
                 if (!Objects.equals(actual, expect)) {
-                    System.err.format("GetDataStack oops!\nActual: %s\nExpect: %s\n", actual, expect);
+                    System.err.format("Oops GetDataStack! Actual: %s, Expect: %s\n", actual, expect);
                     return;
                 }
             }
         }
-    }
 
+        System.out.println("Nice!");
+    }
 }
