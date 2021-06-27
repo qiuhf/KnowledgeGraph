@@ -37,6 +37,36 @@ public class AuxiliaryUtil {
     }
 
     /**
+     * <p>随机生成范字符串数组</p>
+     *
+     * @param range  字符取值范围: [0, range]
+     * @param length 字符串数组最大长度: [1, length]
+     * @return <code>String[]</code>
+     */
+    public static String[] generateRandomStringArray(int range, int length) {
+        String[] ans = new String[(int) (Math.random() * length) + 1];
+        for (int i = 0; i < ans.length; i++) {
+            ans[i] = generateRandomString(range, length);
+        }
+        return ans;
+    }
+
+    /**
+     * <p>随机生成范围中的字符串</p>
+     *
+     * @param range  字符取值范围: [0, range]
+     * @param length 字符串最大长度: [1, length]
+     * @return <code>String</code>
+     */
+    public static String generateRandomString(int range, int length) {
+        char[] chars = new char[(int) (Math.random() * length) + 1];
+        for (int i = 0; i < chars.length; i++) {
+            chars[i] = (char) (Math.random() * (range + 1));
+        }
+        return String.valueOf(chars);
+    }
+
+    /**
      * <p>根据指定条件，生成随机数组</p>
      *
      * @param maxLen 数组最大长度
