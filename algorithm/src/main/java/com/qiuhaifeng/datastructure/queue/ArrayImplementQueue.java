@@ -92,10 +92,7 @@ public class ArrayImplementQueue<E> implements IQueue<E> {
         return ++index >= this.capacity ? 0 : index;
     }
 
-    // for test
-
     public static void main(String[] args) {
-        new ArrayImplementQueue<>(6).checked(6);
-        new ArrayImplementQueue<>(100).verify(aVoid -> new ArrayImplementQueue<>(100));
+        IQueue.logarithm(ArrayImplementQueue::new);
     }
 }

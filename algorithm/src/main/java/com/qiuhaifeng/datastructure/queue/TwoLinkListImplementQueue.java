@@ -88,10 +88,7 @@ public class TwoLinkListImplementQueue<E> implements IQueue<E> {
         return Objects.isNull(this.head);
     }
 
-    // for test
-
     public static void main(String[] args) {
-        new TwoLinkListImplementQueue<>().checked(6);
-        new TwoLinkListImplementQueue<>().verify(aVoid -> new TwoLinkListImplementQueue<>());
+        IQueue.logarithm(size -> new TwoLinkListImplementQueue<>());
     }
 }

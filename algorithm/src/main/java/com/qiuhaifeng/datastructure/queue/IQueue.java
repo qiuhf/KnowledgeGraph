@@ -54,14 +54,16 @@ public interface IQueue<E> {
 
     /**
      * <p>对数器</p>
+     *
+     * @param callback 验证对象
      */
-    default void verify(Function<Void, IQueue<Integer>> callback) {
+    static void logarithm(Function<Integer, IQueue<Integer>> callback) {
         int range = 20_000;
         int oneTestDataNum = 100;
         int testTime = 100_000;
         for (int i = 0; i < testTime; i++) {
             Queue<Integer> queue = new LinkedList<>();
-            IQueue myQueue = callback.apply(null);
+            IQueue<Integer> myQueue = callback.apply(oneTestDataNum);
             for (int j = 0; j < oneTestDataNum; j++) {
                 boolean empty = queue.isEmpty() && myQueue.isEmpty();
                 if (empty || Math.random() > 0.5) {
@@ -72,7 +74,7 @@ public interface IQueue<E> {
                 }
 
                 Integer pop = queue.remove();
-                Integer pop1 = (Integer) myQueue.poll();
+                Integer pop1 = myQueue.poll();
                 if (!Objects.equals(pop1, pop)) {
                     System.err.format("Oops! Actual: %s, Expect: %s\n", pop1, pop);
                     return;
@@ -80,21 +82,5 @@ public interface IQueue<E> {
             }
         }
         System.out.println("Nice!");
-    }
-
-    /**
-     * <p>验证自定义队列</p>
-     *
-     * @param capacity 次数
-     */
-    default void checked(int capacity) {
-        for (Integer i = 0; i < capacity; i++) {
-            System.out.print(this.offer((E) i) + " -> ");
-        }
-        System.out.println("null");
-        for (int i = 0; i < capacity; i++) {
-            System.out.print(this.poll() + " <- ");
-        }
-        System.out.print("null\n");
     }
 }

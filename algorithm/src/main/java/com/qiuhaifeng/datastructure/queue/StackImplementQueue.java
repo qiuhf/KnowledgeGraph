@@ -101,10 +101,7 @@ public class StackImplementQueue<E> implements IQueue<E> {
         } while (!this.stackPush.isEmpty());
     }
 
-    // for test
-
     public static void main(String[] args) {
-        new StackImplementQueue<>().checked(6);
-        new StackImplementQueue<>().verify(aVoid -> new StackImplementQueue<>());
+        IQueue.logarithm(size -> new StackImplementQueue<>());
     }
 }
