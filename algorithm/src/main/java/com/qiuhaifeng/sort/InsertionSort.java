@@ -34,10 +34,6 @@ import java.util.Objects;
  * @since 2021-05-18
  **/
 public class InsertionSort implements ISortable {
-    public static void main(String[] args) {
-        new InsertionSort().check();
-    }
-
     /**
      * <p>指定数组，按照从小到大排序</p>
      *
@@ -56,5 +52,9 @@ public class InsertionSort implements ISortable {
                 swap(arr, i, i + 1);
             }
         }
+    }
+
+    public static void main(String[] args) {
+        ISortable.logarithm(aVoid -> new InsertionSort());
     }
 }

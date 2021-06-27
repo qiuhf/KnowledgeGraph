@@ -40,10 +40,6 @@ import java.util.Objects;
  * @since 2021-05-18
  **/
 public class BubbleSort implements ISortable {
-    public static void main(String[] args) {
-        new BubbleSort().check();
-    }
-
     /**
      * <p>指定数组，按照从小到大排序</p>
      *
@@ -68,5 +64,9 @@ public class BubbleSort implements ISortable {
                 }
             }
         }
+    }
+
+    public static void main(String[] args) {
+        ISortable.logarithm(aVoid -> new BubbleSort());
     }
 }

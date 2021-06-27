@@ -20,6 +20,7 @@ import com.qiuhaifeng.util.AuxiliaryUtil;
 
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.function.Function;
 
 /**
  * ISortable
@@ -36,9 +37,24 @@ public interface ISortable {
     void sort(int[] arr);
 
     /**
-     * <p>检验结果是否正确</p>
+     * <p>交换指定坐标值</p>
+     *
+     * @param arr 数据
+     * @param i   下标i
+     * @param j   下标j
      */
-    default void check() {
+    default void swap(int[] arr, int i, int j) {
+        arr[i] = arr[i] ^ arr[j];
+        arr[j] = arr[i] ^ arr[j];
+        arr[i] = arr[i] ^ arr[j];
+    }
+
+    /**
+     * <p>对数器</p>
+     *
+     * @param callback 验证对象
+     */
+    static void logarithm(Function<Void, ISortable> callback) {
         int testTime = 100_000;
         int maxSize = 200;
         int maxValue = 2_000;
@@ -48,7 +64,7 @@ public interface ISortable {
             int[] arr1 = AuxiliaryUtil.copyArray(arr);
             int[] arr2 = AuxiliaryUtil.copyArray(arr);
             // 自定义排查
-            this.sort(arr1);
+            callback.apply(null).sort(arr1);
             // JDK自带排序
             Arrays.sort(arr2);
             if (!Arrays.equals(arr1, arr2)) {
@@ -60,19 +76,6 @@ public interface ISortable {
         }
 
         System.out.println(succeed ? "Nice!" : "Fucking fucked!");
-    }
-
-    /**
-     * <p>交换指定坐标值</p>
-     *
-     * @param arr 数据
-     * @param i   下标i
-     * @param j   下标j
-     */
-    default void swap(int[] arr, int i, int j) {
-        arr[i] = arr[i] ^ arr[j];
-        arr[j] = arr[i] ^ arr[j];
-        arr[i] = arr[i] ^ arr[j];
     }
 
     /**

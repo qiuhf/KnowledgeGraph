@@ -29,7 +29,7 @@ import java.util.Optional;
  **/
 public class BoundedTrie implements ITrieOperation {
     public static void main(String[] args) {
-        ITrieOperation.verify(BoundedTrie::new);
+        ITrieOperation.logarithm(BoundedTrie::new);
     }
 
     private final int capacity;

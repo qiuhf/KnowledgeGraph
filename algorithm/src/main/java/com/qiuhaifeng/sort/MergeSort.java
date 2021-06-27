@@ -16,9 +16,6 @@
 
 package com.qiuhaifeng.sort;
 
-import com.qiuhaifeng.util.AuxiliaryUtil;
-
-import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -40,15 +37,6 @@ import java.util.Objects;
  * @since 2021-06-13
  **/
 public class MergeSort implements ISortable {
-    public static void main(String[] args) {
-        int[] array = AuxiliaryUtil.generateRandomArray(20, 100);
-        System.out.println("array = " + Arrays.toString(array));
-        new MergeSort().sort2(array);
-        System.out.println("array = " + Arrays.toString(array));
-
-        new MergeSort().check();
-    }
-
     /**
      * <p>指定数组，按照从小到大排序</p>
      *
@@ -148,5 +136,9 @@ public class MergeSort implements ISortable {
             }
             mergeSize <<= 1;
         } while (mergeSize < len);
+    }
+
+    public static void main(String[] args) {
+        ISortable.logarithm(aVoid -> new MergeSort());
     }
 }

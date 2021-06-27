@@ -71,8 +71,10 @@ public interface ITrieOperation {
 
     /**
      * <p>对数器</p>
+     *
+     * @param callback 验证对象
      */
-    static void verify(Function<Integer, ITrieOperation> callback) {
+    static void logarithm(Function<Integer, ITrieOperation> callback) {
         int range = 100;
         int length = 20;
         int testTimes = 100_000;

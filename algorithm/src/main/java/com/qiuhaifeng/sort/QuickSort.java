@@ -36,10 +36,6 @@ import java.util.Stack;
  * @since 2021-06-16
  **/
 public class QuickSort implements ISortable {
-    public static void main(String[] args) {
-        new QuickSort().check();
-    }
-
     /**
      * <p>指定数组，按照从小到大排序</p>
      *
@@ -212,5 +208,9 @@ public class QuickSort implements ISortable {
 
         swap2(arr, ++lessEquals, right);
         return lessEquals;
+    }
+
+    public static void main(String[] args) {
+        ISortable.logarithm(aVoid -> new QuickSort());
     }
 }

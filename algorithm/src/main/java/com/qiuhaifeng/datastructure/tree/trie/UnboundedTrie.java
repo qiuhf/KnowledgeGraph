@@ -31,7 +31,7 @@ import java.util.Optional;
  **/
 public class UnboundedTrie implements ITrieOperation {
     public static void main(String[] args) {
-        ITrieOperation.verify(size -> new UnboundedTrie());
+        ITrieOperation.logarithm(size -> new UnboundedTrie());
     }
 
     private Node root;

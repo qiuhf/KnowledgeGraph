@@ -73,7 +73,7 @@ public interface IHeap<E> {
     /**
      * <p>对数器</p>
      *
-     * @param callback callback
+     * @param callback 验证对象
      */
     static void logarithm(Function<Integer, IHeap> callback) {
         int capacity = (int) (Math.random() * 20);

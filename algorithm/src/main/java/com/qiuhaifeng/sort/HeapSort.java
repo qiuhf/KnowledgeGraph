@@ -16,7 +16,6 @@
 
 package com.qiuhaifeng.sort;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -33,18 +32,6 @@ import java.util.Objects;
  * @since 2021-06-20
  **/
 public class HeapSort implements ISortable {
-    public static void main(String[] args) {
-//        new HeapSort().check();
-        HeapSort heapSort = new HeapSort();
-        int[] arr = new int[15];
-        for (int i = 0; i < arr.length;i++){
-            arr[i]=i;
-        }
-        System.out.println("arr = " + Arrays.toString(arr));
-        heapSort.sort(arr);
-        System.out.println("arr = " + Arrays.toString(arr));
-    }
-
     /**
      * <p>指定数组，按照从小到大排序</p>
      *
@@ -74,7 +61,7 @@ public class HeapSort implements ISortable {
         for (int i = (cursor - 1) & (~1); i >= 0; i--) {
             this.heapify(arr, i, heapSize);
         }
-        System.out.println("arr = " + Arrays.toString(arr));
+
         do {
             // 堆的最大值和堆末尾的值交换, 时间复杂度： O(1)
             swap2(arr, 0, --heapSize);
@@ -125,4 +112,7 @@ public class HeapSort implements ISortable {
         }
     }
 
+    public static void main(String[] args) {
+        ISortable.logarithm(aVoid -> new HeapSort());
+    }
 }
