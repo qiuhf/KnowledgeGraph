@@ -27,13 +27,33 @@ public class AuxiliaryUtil {
     }
 
     /**
-     * <p>随机生成范围中的一个数：{range, -range}</p>
+     * <p>随机生成范围中的一个数：[range, -range]</p>
      *
      * @param range 范围
      * @return <code>int</code>
      */
     public static Integer randomNumber(int range) {
         return ((int) (Math.random() * range) + 1) - ((int) (Math.random() * range) + 1);
+    }
+
+    /**
+     * <p>随机生成范围中的一个正整数：[1, range]</p>
+     *
+     * @param range 范围
+     * @return <code>int</code>
+     */
+    public static int randomPositiveNum(int range) {
+        return (int) (Math.random() * range) + 1;
+    }
+
+    /**
+     * <p>随机生成范围中的一个负整数：[-range, 0)</p>
+     *
+     * @param range 范围
+     * @return <code>int</code>
+     */
+    public static int randomNegativeNum(int range) {
+        return -(int) (Math.random() * (range + 1)) - 1;
     }
 
     /**
@@ -74,17 +94,37 @@ public class AuxiliaryUtil {
      * @return <code>int[]</code> 数组
      */
     public static int[] generateRandomArray(int maxLen, int range) {
+        return generateRandomArray(maxLen, range, 0);
+    }
+
+    /**
+     * <p>根据指定条件，生成随机数组</p>
+     *
+     * @param maxLen 数组最大长度
+     * @param range  范围
+     * @param code -1:负  0正/0/负 1正
+     * @return <code>int[]</code> 数组
+     */
+    public static int[] generateRandomArray(int maxLen, int range, int code) {
         // Math.random()   [0,1)
         // Math.random() * N  [0,N)
         // (int)(Math.random() * N)  [0, N-1]
         int len = (int) ((maxLen + 1) * Math.random());
         int[] ints = new int[len];
         for (int i = 0; i < len; i++) {
-            ints[i] = randomNumber(range);
+            switch (code) {
+                case -1:
+                    ints[i] = randomNegativeNum(range);
+                    break;
+                case 1:
+                    ints[i] = randomPositiveNum(range);
+                    break;
+                default:
+                    ints[i] = randomNumber(range);
+            }
         }
         return ints;
     }
-
 
     /**
      * <p>拷贝数组</p>
