@@ -19,6 +19,7 @@ package com.qiuhaifeng.datastructure.tree.heap;
 import com.qiuhaifeng.util.AuxiliaryUtil;
 
 import java.util.Locale;
+import java.util.function.Function;
 
 /**
  * <pre>
@@ -39,12 +40,14 @@ public interface IHeap<E> {
      * @return <code>boolean</code>
      */
     boolean isEmpty();
+
     /**
      * <p>堆大小</p>
      *
      * @return <code>int</code>
      */
     int size();
+
     /**
      * <p>新增</p>
      *
@@ -68,17 +71,19 @@ public interface IHeap<E> {
     E peek();
 
     /**
-     * <p>验证自定义队列</p>
+     * <p>对数器</p>
      *
-     * @param capacity 次数
+     * @param callback callback
      */
-    default void checked(int capacity) {
+    static void logarithm(Function<Integer, IHeap> callback) {
+        int capacity = (int) (Math.random() * 20);
+        IHeap<Integer> heap = callback.apply(capacity);
         for (int i = 0; i < capacity; i++) {
-            this.push((E) AuxiliaryUtil.randomNumber(10));
+            heap.push(AuxiliaryUtil.randomNumber(10));
         }
         for (int i = 0; i < capacity; i++) {
-            System.out.printf(Locale.ROOT, "%d -> ", this.pop());
+            System.out.printf(Locale.ROOT, "%d -> ", heap.pop());
         }
-        System.out.println("null\nheap.isEmpty() = " + this.isEmpty());
+        System.out.println("null\nheap.isEmpty() = " + heap.isEmpty());
     }
 }

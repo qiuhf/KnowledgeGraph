@@ -31,10 +31,6 @@ import java.util.NoSuchElementException;
  * @since 2021-06-19
  **/
 public class RightMaxHeap<E extends Comparable<E>> implements IHeap<E> {
-    public static void main(String[] args) {
-        new RightMaxHeap<>(12).checked(12);
-    }
-
     private Object[] data;
     private final int capacity;
     private int length;
@@ -126,5 +122,9 @@ public class RightMaxHeap<E extends Comparable<E>> implements IHeap<E> {
         }
 
         return (E) this.data[maxIndex];
+    }
+
+    public static void main(String[] args) {
+        IHeap.logarithm(RightMaxHeap::new);
     }
 }

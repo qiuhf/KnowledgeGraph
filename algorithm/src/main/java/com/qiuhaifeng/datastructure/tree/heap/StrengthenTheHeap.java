@@ -32,10 +32,6 @@ import java.util.Objects;
  * @since 2021-06-23
  **/
 public class StrengthenTheHeap<E> implements IHeap<E> {
-    public static void main(String[] args) {
-        new StrengthenTheHeap<Integer>().checked(12);
-    }
-
     /**
      * 堆
      */
@@ -318,5 +314,9 @@ public class StrengthenTheHeap<E> implements IHeap<E> {
                 this.index.put(node, index);
             }
         }
+    }
+
+    public static void main(String[] args) {
+        IHeap.logarithm(size -> new StrengthenTheHeap());
     }
 }

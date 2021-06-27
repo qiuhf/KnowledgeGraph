@@ -27,10 +27,6 @@ import java.util.NoSuchElementException;
  * @since 2021-06-19
  **/
 public class MaxHeap<E extends Comparable<E>> implements IHeap<E> {
-    public static void main(String[] args) {
-        new MaxHeap<>(12).checked(12);
-    }
-
     private Object[] heap;
     private int capacity;
     private int heapSize;
@@ -161,5 +157,9 @@ public class MaxHeap<E extends Comparable<E>> implements IHeap<E> {
         Object tmp = heap[i];
         heap[i] = heap[j];
         heap[j] = tmp;
+    }
+
+    public static void main(String[] args) {
+        IHeap.logarithm(MaxHeap::new);
     }
 }
