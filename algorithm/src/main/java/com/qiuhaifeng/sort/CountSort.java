@@ -44,7 +44,7 @@ public class CountSort implements ISortable {
         this.integerSort(arr);
 
         // 经典计数排序（样本数据都是正整数）
-        // this.positiveSort(arr);
+        this.positiveSort(arr);
     }
 
     private void integerSort(int[] arr) {
@@ -75,6 +75,9 @@ public class CountSort implements ISortable {
         // 获取最大值
         int max = Integer.MIN_VALUE;
         for (int num : arr) {
+            if (num < 0) {
+                throw new IllegalArgumentException(num + ", the number less than 0");
+            }
             max = Math.max(max, num);
         }
         int[] bucket = new int[max + 1];
