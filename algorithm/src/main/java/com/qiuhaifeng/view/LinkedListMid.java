@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.StringJoiner;
 
 /**
  * <pre>
@@ -103,13 +102,6 @@ public class LinkedListMid {
 
         public Node(T value) {
             this.value = value;
-        }
-
-        @Override
-        public String toString() {
-            return new StringJoiner(", ", Node.class.getSimpleName() + "[", "]")
-                    .add("value=" + value)
-                    .toString();
         }
     }
 
