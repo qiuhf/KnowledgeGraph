@@ -214,8 +214,8 @@ public class PalindromeList {
     }
 
     public static class Node<T> {
-        private T value;
-        private Node<T> next;
+        public T value;
+        public Node<T> next;
 
         public Node(T value) {
             this.value = value;

@@ -16,6 +16,11 @@
 
 package com.qiuhaifeng.leetcode;
 
+import com.qiuhaifeng.util.AuxiliaryUtil;
+import com.qiuhaifeng.view.PalindromeList;
+
+import java.util.Locale;
+
 /**
  * <pre>
  *   回文数
@@ -30,6 +35,20 @@ package com.qiuhaifeng.leetcode;
  * @since 2021-07-01
  **/
 public class E9PalindromeNumber {
+    public static void main(String[] args) {
+        int time = 100_000;
+        for (int i = 0; i < time; i++) {
+            int x = AuxiliaryUtil.randomNumber(Integer.MAX_VALUE);
+            boolean res = isPalindrome(x);
+            boolean ans = logarithm(x);
+            if (res != ans) {
+                System.out.printf(Locale.ROOT, "Fucking num: %d, Actual: %s, Expect: %s", x, res, ans);
+                return;
+            }
+        }
+        System.out.println("Nice!");
+    }
+
     public static boolean isPalindrome(int x) {
         if (x < 0 || (x != 0 && x % 10 == 0)) {
             return false;
@@ -42,5 +61,20 @@ public class E9PalindromeNumber {
         }
 
         return x == revertedNum || x == revertedNum / 10;
+    }
+
+    public static boolean logarithm(int x) {
+        if (x < 0 || (x != 0 && x % 10 == 0)) {
+            return false;
+        }
+
+        PalindromeList.Node<Integer> head = new PalindromeList.Node<>(x % 10);
+        PalindromeList.Node node = head;
+        while ((x /= 10) != 0) {
+            node.next = new PalindromeList.Node<>(x % 10);
+            node = node.next;
+        }
+
+        return PalindromeList.isPalindromeByStack(head);
     }
 }
