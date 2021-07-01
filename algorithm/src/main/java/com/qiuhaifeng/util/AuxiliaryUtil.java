@@ -73,9 +73,6 @@ public class AuxiliaryUtil {
         return ans;
     }
 
-    public static void main(String[] args) {
-        System.out.println(generateRandomString(5, 5));
-    }
     /**
      * <p>随机生成范围中的字符串</p>
      *
