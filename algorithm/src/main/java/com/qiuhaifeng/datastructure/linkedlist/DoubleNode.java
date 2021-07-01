@@ -34,9 +34,9 @@ import java.util.Optional;
 @Getter
 @Setter
 public class DoubleNode<T> {
-    private T value;
-    private DoubleNode<T> prev;
-    private DoubleNode<T> next;
+    public T value;
+    public DoubleNode<T> prev;
+    public DoubleNode<T> next;
 
     public DoubleNode() {
     }

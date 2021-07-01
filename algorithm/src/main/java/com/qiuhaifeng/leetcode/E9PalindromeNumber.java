@@ -16,6 +16,7 @@
 
 package com.qiuhaifeng.leetcode;
 
+import com.qiuhaifeng.datastructure.linkedlist.Node;
 import com.qiuhaifeng.util.AuxiliaryUtil;
 import com.qiuhaifeng.view.PalindromeList;
 
@@ -68,10 +69,10 @@ public class E9PalindromeNumber {
             return false;
         }
 
-        PalindromeList.Node<Integer> head = new PalindromeList.Node<>(x % 10);
-        PalindromeList.Node node = head;
+        Node<Integer> head = new Node<>(x % 10);
+        Node node = head;
         while ((x /= 10) != 0) {
-            node.next = new PalindromeList.Node<>(x % 10);
+            node.next = new Node<>(x % 10);
             node = node.next;
         }
 

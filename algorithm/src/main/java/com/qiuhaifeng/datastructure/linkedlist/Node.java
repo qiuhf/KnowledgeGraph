@@ -29,8 +29,8 @@ import java.util.Optional;
  * @since 2021-06-05
  **/
 public class Node<T> {
-    private Node<T> next;
-    private T value;
+    public Node<T> next;
+    public T value;
 
     public Node(T value) {
         this.value = value;

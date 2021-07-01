@@ -16,6 +16,7 @@
 
 package com.qiuhaifeng.view;
 
+import com.qiuhaifeng.datastructure.linkedlist.Node;
 import com.qiuhaifeng.util.AuxiliaryUtil;
 
 import java.util.ArrayList;
@@ -211,14 +212,5 @@ public class PalindromeList {
             node = node.next;
         }
         return list;
-    }
-
-    public static class Node<T> {
-        public T value;
-        public Node<T> next;
-
-        public Node(T value) {
-            this.value = value;
-        }
     }
 }

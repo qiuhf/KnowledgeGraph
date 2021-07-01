@@ -16,6 +16,8 @@
 
 package com.qiuhaifeng.view;
 
+import com.qiuhaifeng.datastructure.linkedlist.Node;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -94,15 +96,6 @@ public class LinkedListMid {
             node = node.next;
         }
         return head;
-    }
-
-    public static class Node<T> {
-        private T value;
-        private Node next;
-
-        public Node(T value) {
-            this.value = value;
-        }
     }
 
     /**

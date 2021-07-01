@@ -16,6 +16,8 @@
 
 package com.qiuhaifeng.util;
 
+import com.qiuhaifeng.datastructure.linkedlist.Node;
+
 /**
  * 辅助工具
  *
@@ -71,6 +73,9 @@ public class AuxiliaryUtil {
         return ans;
     }
 
+    public static void main(String[] args) {
+        System.out.println(generateRandomString(5, 5));
+    }
     /**
      * <p>随机生成范围中的字符串</p>
      *
@@ -102,7 +107,7 @@ public class AuxiliaryUtil {
      *
      * @param maxLen 数组最大长度
      * @param range  范围
-     * @param code -1:负  0正/0/负 1正
+     * @param code   -1:负  0正/0/负 1正
      * @return <code>int[]</code> 数组
      */
     public static int[] generateRandomArray(int maxLen, int range, int code) {
@@ -124,6 +129,28 @@ public class AuxiliaryUtil {
             }
         }
         return ints;
+    }
+
+    /**
+     * <p>根据指定条件，生成头节点</p>
+     *
+     * @param depth 最大深度
+     * @param range 最大值
+     * @return <code>Node</code> 头节点
+     */
+    public static Node<Integer> generateRandomNode(int depth, int range) {
+        if (depth == 0) {
+            return null;
+        }
+
+        Node<Integer> head = new Node<>(randomNumber(range));
+        Node<Integer> node = head;
+        while (--depth > 0) {
+            node.next = new Node<>(randomNumber(range));
+            node = node.next;
+        }
+
+        return head;
     }
 
     /**
