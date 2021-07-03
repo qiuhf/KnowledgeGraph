@@ -18,6 +18,10 @@ package com.qiuhaifeng.util;
 
 import com.qiuhaifeng.datastructure.linkedlist.Node;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 /**
  * 辅助工具
  *
@@ -131,11 +135,12 @@ public class AuxiliaryUtil {
     /**
      * <p>根据指定条件，生成头节点</p>
      *
-     * @param depth 最大深度
-     * @param range 最大值
+     * @param maxDepth 最大深度
+     * @param range    最大值
      * @return <code>Node</code> 头节点
      */
-    public static Node<Integer> generateRandomNode(int depth, int range) {
+    public static Node<Integer> generateRandomNode(int maxDepth, int range) {
+        int depth = (int) (Math.random() * (maxDepth + 1));
         if (depth == 0) {
             return null;
         }
@@ -157,8 +162,49 @@ public class AuxiliaryUtil {
      * @return <code>int[]</code> 数组
      */
     public static int[] copyArray(int[] arr1) {
+        if (Objects.isNull(arr1) || arr1.length == 0) {
+            return null;
+        }
         int[] arr2 = new int[arr1.length];
         System.arraycopy(arr1, 0, arr2, 0, arr1.length);
         return arr2;
+    }
+
+    /**
+     * <p>拷贝节点</p>
+     *
+     * @param head 头节点
+     * @return <code>int[]</code> 数组
+     */
+    public static <T> Node<T> copyNode(Node<T> head) {
+        if (Objects.isNull(head)) {
+            return null;
+        }
+        Node<T> newHead = new Node<>(head.value);
+        Node<T> next = newHead;
+        Node<T> node = head.next;
+        while (Objects.nonNull(node)) {
+            next.next = new Node<>(node.value);
+            node = node.next;
+            next = next.next;
+        }
+        return newHead;
+    }
+
+    /**
+     * <p>节点转换list</p>
+     *
+     * @param head 头节点
+     * @param <T>  类型
+     * @return <code>List<T></code>
+     */
+    public static <T> List<T> nodeToList(Node<T> head) {
+        Node<T> node = head;
+        List<T> list = new ArrayList<>();
+        while (Objects.nonNull(node)) {
+            list.add(node.value);
+            node = node.next;
+        }
+        return list;
     }
 }

@@ -19,8 +19,6 @@ package com.qiuhaifeng.view;
 import com.qiuhaifeng.datastructure.linkedlist.Node;
 import com.qiuhaifeng.util.AuxiliaryUtil;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Stack;
@@ -120,7 +118,7 @@ public class PalindromeList {
         fast = slow.next;
         // 中点下一个节点指向null
         slow.next = null;
-        Node<T> tmp = null;
+        Node<T> tmp;
         // 第一次循环： 1 -> 2 -> 3 -> null | 3 <- 2 -> 1
         // 第一次循环： 1 -> 2 -> 3 -> null | 3 <- 2 <- 1
         // 循环结束，slow就是后半段的新头节点，如 3 <- 2 <- 1
@@ -169,7 +167,7 @@ public class PalindromeList {
             node.next = new Node<>(i >= (size / 2) ? --v : i);
             node = node.next;
         }
-        System.out.println(nodeToList(head));
+        System.out.println(AuxiliaryUtil.nodeToList(head));
         System.out.println(isPalindromeByStack(head));
         System.out.println(isPalindromeByHalfStack(head));
         System.out.println(isPalindrome(head));
@@ -178,11 +176,11 @@ public class PalindromeList {
         for (int i = 0; i < testTime; i++) {
             Node<Integer> randomHeadNode = generateRandomNode();
             if (isPalindromeByStack(randomHeadNode) != isPalindrome(randomHeadNode)) {
-                System.out.printf(Locale.ROOT, "Oops isPalindrome！Node: %s", nodeToList(head));
+                System.out.printf(Locale.ROOT, "Oops isPalindrome！Node: %s", AuxiliaryUtil.nodeToList(head));
                 return;
             }
             if (isPalindromeByStack(randomHeadNode) != isPalindromeByHalfStack(randomHeadNode)) {
-                System.out.printf(Locale.ROOT, "Oops isPalindromeByHalfStack！Node: %s", nodeToList(head));
+                System.out.printf(Locale.ROOT, "Oops isPalindromeByHalfStack！Node: %s", AuxiliaryUtil.nodeToList(head));
                 return;
             }
         }
@@ -202,15 +200,5 @@ public class PalindromeList {
         }
 
         return head;
-    }
-
-    private static <T> List<T> nodeToList(Node<T> head) {
-        Node<T> node = head;
-        List<T> list = new ArrayList<>();
-        while (Objects.nonNull(node)) {
-            list.add(node.value);
-            node = node.next;
-        }
-        return list;
     }
 }
