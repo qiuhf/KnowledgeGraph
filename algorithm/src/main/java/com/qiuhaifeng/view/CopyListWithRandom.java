@@ -51,7 +51,7 @@ public class CopyListWithRandom {
         for (int i = 0; i < testTime; i++) {
             Node<Integer> head = generateRandomNode(maxDepth, range);
             String headStr = toString(head);
-            String head1 = toString(copyByMap(head));
+            String head1 = toString(useMapCopy(head));
             if (!headStr.equals(head1)) {
                 System.err.printf(Locale.ROOT, "CopyByMap failed! \nActual: %s\nExcept: %s\n", head1, headStr);
                 return;
@@ -118,7 +118,7 @@ public class CopyListWithRandom {
      * @param <T>  类型
      * @return <code>Node<T></code>
      */
-    public static <T> Node<T> copyByMap(Node<T> head) {
+    public static <T> Node<T> useMapCopy(Node<T> head) {
         // 数据结构<旧节点，新节点>
         Map<Node<T>, Node<T>> nodeMap = new HashMap<>();
         Node<T> cur = head;
