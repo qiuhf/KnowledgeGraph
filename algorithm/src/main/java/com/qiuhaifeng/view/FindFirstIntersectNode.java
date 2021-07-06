@@ -56,6 +56,9 @@ public class FindFirstIntersectNode {
     }
 
     public static Node getIntersectNode(Node head1, Node head2) {
+        if ((Objects.isNull(head1) && Objects.isNull(head2))) {
+            return null;
+        }
         // 获取入环节点
         Node entry1 = getEntryNode(head1);
         Node entry2 = getEntryNode(head2);
