@@ -57,13 +57,14 @@ public class NonRecursiveTraversalBTree {
         Stack<Node> stack = new Stack<>();
         stack.push(head);
         do {
+            // 移除父节点并打印
             Node node = stack.pop();
             System.out.printf(Locale.ROOT, "%s ", node.value);
-
+            // 右子节点先进栈
             if (Objects.nonNull(node.right)) {
                 stack.push(node.right);
             }
-
+            // 左子节点后进栈
             if (Objects.nonNull(node.left)) {
                 stack.push(node.left);
             }
@@ -79,12 +80,16 @@ public class NonRecursiveTraversalBTree {
         Stack<Node> stack = new Stack<>();
         Node cur = head;
         while (!stack.isEmpty() || Objects.nonNull(cur)) {
+            // 整条左边界先进栈
             if (Objects.nonNull(cur)) {
                 stack.push(cur);
                 cur = cur.left;
             } else {
+                // 移除最后一个左节点并打印
                 cur = stack.pop();
                 System.out.printf(Locale.ROOT, "%s ", cur.value);
+                // 指向父节点的右节点
+                //
                 cur = cur.right;
             }
         }
