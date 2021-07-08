@@ -39,34 +39,23 @@ public class Node<V> {
      * @return <code>Node</code>
      */
     public static Node generateBTree(int size, boolean isNum) {
+        if (size <= 0) {
+            return null;
+        }
+
         Node[] nodes = new Node[size];
         for (int i = 0; i < size; i++) {
             nodes[i] = isNum ? new Node<>(i) : new Node<>((char) (i + 97));
         }
-        int i = 0;
-        int left = 1 + (i << 1);
-        // 父节点处理标记
-        int mark = 1;
-        while (left < size) {
-            nodes[i].left = nodes[left];
-            if (left + 1 >= size - 1) {
-                break;
+
+        int index;
+        while (--size > 0) {
+            index = (size - 1) / 2;
+            if ((size & 1) != 0) {
+                nodes[index].left = nodes[size];
+            } else {
+                nodes[index].right = nodes[size];
             }
-            nodes[i].right = nodes[left + 1];
-            // 左子节点作为下一次父节点
-            i = left;
-            if ((i << 1) + 2 > size - 1) {
-                while ((mark & (1 << ((i - 1) / 2))) != 0) {
-                    // 已处理，移动到父节点
-                    i = (i - 1) / 2;
-                    if (i == 0) {
-                        return nodes[0];
-                    }
-                }
-                i = (i - 1) / 2 + 1;
-                mark |= (1 << i);
-            }
-            left = 1 + (i << 1);
         }
 
         return nodes[0];

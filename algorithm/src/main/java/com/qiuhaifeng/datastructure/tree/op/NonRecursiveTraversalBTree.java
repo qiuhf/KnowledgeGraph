@@ -17,8 +17,10 @@
 package com.qiuhaifeng.datastructure.tree.op;
 
 
+import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Queue;
 import java.util.Stack;
 
 /**
@@ -27,6 +29,7 @@ import java.util.Stack;
  *    先序：任何子树的处理顺序都是，先头节点、再左子树、然后右子树
  *    中序：任何子树的处理顺序都是，先左子树、再头节点、然后右子树
  *    后序：任何子树的处理顺序都是，先左子树、再右子树、然后头节点
+ *    宽度优先遍历: 遍历完当层节点后再遍历下一层
  * </pre>
  *
  * @author sz_qiuhf@163.com
@@ -34,7 +37,7 @@ import java.util.Stack;
  **/
 public class NonRecursiveTraversalBTree {
     public static void main(String[] args) {
-        Node head = Node.generateBTree(8, true);
+        Node head = Node.generateBTree(7, true);
 
         System.out.print("Pre order: ");
         pre(head);
@@ -42,6 +45,8 @@ public class NonRecursiveTraversalBTree {
         in(head);
         System.out.print("\nPost order: ");
         post(head);
+        System.out.print("\nWidth order: ");
+        level(head);
     }
 
     /**
@@ -121,5 +126,30 @@ public class NonRecursiveTraversalBTree {
                 head = cur;
             }
         } while (!stack.isEmpty());
+    }
+
+    /**
+     * <p>宽度优先（按层）遍历</p>
+     *
+     * @param head 头节点
+     */
+    private static void level(Node head) {
+        if (Objects.isNull(head)) {
+            return;
+        }
+
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(head);
+        Node cur;
+        do {
+            cur = queue.poll();
+            System.out.printf(Locale.ROOT, "%s ", cur.value);
+            if (Objects.nonNull(cur.left)) {
+                queue.add(cur.left);
+            }
+            if (Objects.nonNull(cur.right)) {
+                queue.add(cur.right);
+            }
+        } while (!queue.isEmpty());
     }
 }
