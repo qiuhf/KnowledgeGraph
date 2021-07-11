@@ -32,7 +32,7 @@ public class Node<V> {
     }
 
     /**
-     * <p>生成树</p>
+     * <p>生成完全二叉树</p>
      *
      * @param size  大小
      * @param isNum true:数字/false:小写字母
@@ -48,13 +48,11 @@ public class Node<V> {
             nodes[i] = isNum ? new Node<>(i) : new Node<>((char) (i + 97));
         }
 
-        int index;
         while (--size > 0) {
-            index = (size - 1) / 2;
             if ((size & 1) != 0) {
-                nodes[index].left = nodes[size];
+                nodes[(size - 1) / 2].left = nodes[size];
             } else {
-                nodes[index].right = nodes[size];
+                nodes[(size - 1) / 2].right = nodes[size];
             }
         }
 

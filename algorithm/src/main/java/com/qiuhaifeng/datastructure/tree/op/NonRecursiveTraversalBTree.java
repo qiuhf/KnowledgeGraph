@@ -37,7 +37,7 @@ import java.util.Stack;
  **/
 public class NonRecursiveTraversalBTree {
     public static void main(String[] args) {
-        Node head = Node.generateBTree(7, true);
+        Node head = Node.generateBTree(31, true);
 
         System.out.print("Pre order: ");
         pre(head);
@@ -94,7 +94,6 @@ public class NonRecursiveTraversalBTree {
                 cur = stack.pop();
                 System.out.printf(Locale.ROOT, "%s ", cur.value);
                 // 指向父节点的右节点
-                //
                 cur = cur.right;
             }
         }
