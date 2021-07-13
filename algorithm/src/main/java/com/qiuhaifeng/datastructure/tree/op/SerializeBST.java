@@ -39,7 +39,7 @@ public class SerializeBST {
         int maxLevel = 100;
         int testTimes = 100_000;
         for (int i = 0; i < testTimes; i++) {
-            Node<Integer> head = generateRandomBST((int) (Math.random() * (maxLevel + 1)));
+            Node<Integer> head = Node.generateRandomBST((int) (Math.random() * (maxLevel + 1)));
             Node<Integer> preBuild = preDeserialize(preSerialize(head));
             Node<Integer> posBuild = postDeserialize(postSerialize(head));
             Node<Integer> levelBuild = levelDeserialize(levelSerialize(head));
@@ -223,20 +223,6 @@ public class SerializeBST {
 
     private static Node<Integer> generateNode(String value) {
         return Objects.isNull(value) ? null : new Node<>(Integer.parseInt(value));
-    }
-
-    private static Node<Integer> generateRandomBST(int maxLevel) {
-        return generate(1, maxLevel);
-    }
-
-    private static Node<Integer> generate(int level, int maxLevel) {
-        if (level > maxLevel || Math.random() < 0.5) {
-            return null;
-        }
-        Node<Integer> head = new Node<>((int) (Math.random() * 20));
-        head.left = generate(level + 1, maxLevel);
-        head.right = generate(level + 1, maxLevel);
-        return head;
     }
 
     private static boolean compare(Node head1, Node head2) {

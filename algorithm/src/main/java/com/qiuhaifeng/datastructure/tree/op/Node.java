@@ -58,4 +58,24 @@ public class Node<V> {
 
         return nodes[0];
     }
+
+    /**
+     * <pre>生成二叉树，随机子节点为空</pre>
+     *
+     * @param maxLevel 最大层数
+     * @return <code>Node</code>
+     */
+    public static Node generateRandomBST(int maxLevel) {
+        return generate(1, maxLevel);
+    }
+
+    private static Node generate(int level, int maxLevel) {
+        if (level > maxLevel || Math.random() < 0.5) {
+            return null;
+        }
+        Node head = new Node<>((int) (Math.random() * 20));
+        head.left = generate(level + 1, maxLevel);
+        head.right = generate(level + 1, maxLevel);
+        return head;
+    }
 }
