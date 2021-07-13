@@ -180,17 +180,17 @@ public class CopyListWithRandom {
 
         return head;
     }
-}
 
-class Node<T> {
-    T value;
-    Node<T> next;
-    /**
-     * rand指针是单链表节点结构中新增的指针，rand可能指向链表中的任意一个节点，也可能指向null
-     */
-    Node<T> rand;
+    static class Node<T> {
+        T value;
+        Node<T> next;
+        /**
+         * rand指针是单链表节点结构中新增的指针，rand可能指向链表中的任意一个节点，也可能指向null
+         */
+        Node<T> rand;
 
-    Node(T value) {
-        this.value = value;
+        Node(T value) {
+            this.value = value;
+        }
     }
 }
