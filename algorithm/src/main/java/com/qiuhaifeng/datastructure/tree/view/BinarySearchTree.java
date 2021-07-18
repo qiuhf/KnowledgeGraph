@@ -61,27 +61,15 @@ public class BinarySearchTree {
 
     private static Info process(Node<Integer> head) {
         if (Objects.isNull(head)) {
-            return null;
+            return new Info(true, Integer.MIN_VALUE, Integer.MAX_VALUE);
         }
 
         Info leftInfo = process(head.left);
         Info rightInfo = process(head.right);
 
-        boolean isBST = true;
-        int maxValue = head.value;
-        int minValue = head.value;
-
-        if (Objects.nonNull(leftInfo)) {
-            isBST = (leftInfo.isBST && head.value > leftInfo.maxValue);
-            maxValue = Math.max(leftInfo.maxValue, maxValue);
-            minValue = Math.min(leftInfo.minValue, minValue);
-        }
-
-        if (Objects.nonNull(rightInfo)) {
-            isBST &= (rightInfo.isBST && head.value < rightInfo.minValue);
-            maxValue = Math.max(rightInfo.maxValue, maxValue);
-            minValue = Math.min(rightInfo.minValue, minValue);
-        }
+        boolean isBST = leftInfo.isBST && rightInfo.isBST && head.value < rightInfo.minValue && head.value > leftInfo.maxValue;
+        int maxValue = Math.max(leftInfo.maxValue, Math.max(rightInfo.maxValue, head.value));
+        int minValue = Math.min(leftInfo.minValue, Math.min(rightInfo.minValue, head.value));
 
         return new Info(isBST, maxValue, minValue);
     }
