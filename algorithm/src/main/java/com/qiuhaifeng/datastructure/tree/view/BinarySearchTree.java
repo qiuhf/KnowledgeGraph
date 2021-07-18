@@ -55,8 +55,7 @@ public class BinarySearchTree {
      * @return <code>boolean</code>
      */
     public static boolean isBST(Node<Integer> head) {
-        Info info = process(head);
-        return Objects.isNull(info) || info.isBST;
+        return process(head).isBST;
     }
 
     private static Info process(Node<Integer> head) {
