@@ -66,7 +66,7 @@ public class BinarySearchTree {
 
         Info leftInfo = process(head.left);
         Info rightInfo = process(head.right);
-
+        // 左右子树都是二叉搜索数，且左子树最大值小于父节点，右子树最小值大于头节点
         boolean isBST = leftInfo.isBST && rightInfo.isBST && head.value < rightInfo.minValue && head.value > leftInfo.maxValue;
         int maxValue = Math.max(leftInfo.maxValue, Math.max(rightInfo.maxValue, head.value));
         int minValue = Math.min(leftInfo.minValue, Math.min(rightInfo.minValue, head.value));
