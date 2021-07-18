@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.qiuhaifeng.view;
+package com.qiuhaifeng.datastructure.linkedlist.view;
 
 import com.qiuhaifeng.datastructure.linkedlist.Node;
 import com.qiuhaifeng.util.AuxiliaryUtil;

@@ -17,8 +17,8 @@
 package com.qiuhaifeng.leetcode;
 
 import com.qiuhaifeng.datastructure.linkedlist.Node;
+import com.qiuhaifeng.datastructure.linkedlist.view.PalindromeList;
 import com.qiuhaifeng.util.AuxiliaryUtil;
-import com.qiuhaifeng.view.PalindromeList;
 
 import java.util.Locale;
 
