@@ -16,7 +16,7 @@
 
 package com.qiuhaifeng.datastructure.tree.view;
 
-import com.qiuhaifeng.datastructure.tree.op.Node;
+import com.qiuhaifeng.datastructure.tree.Node;
 
 import java.util.HashMap;
 import java.util.LinkedList;

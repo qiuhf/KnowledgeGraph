@@ -14,8 +14,10 @@
  *  limitations under the License.
  */
 
-package com.qiuhaifeng.datastructure.tree.op;
+package com.qiuhaifeng.datastructure.tree.view;
 
+
+import com.qiuhaifeng.datastructure.tree.Node;
 
 import java.util.LinkedList;
 import java.util.Locale;

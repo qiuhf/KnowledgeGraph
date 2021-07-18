@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.qiuhaifeng.datastructure.tree.op;
+package com.qiuhaifeng.datastructure.tree;
 
 /**
  * <pre>B树</pre>
