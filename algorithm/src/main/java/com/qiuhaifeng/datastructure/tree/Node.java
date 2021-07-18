@@ -16,6 +16,8 @@
 
 package com.qiuhaifeng.datastructure.tree;
 
+import com.qiuhaifeng.util.AuxiliaryUtil;
+
 /**
  * <pre>B树</pre>
  *
@@ -73,7 +75,7 @@ public class Node<V> {
         if (level > maxLevel || Math.random() < 0.5) {
             return null;
         }
-        Node head = new Node<>((int) (Math.random() * 20));
+        Node head = new Node<>((AuxiliaryUtil.randomNumber(20)));
         head.left = generate(level + 1, maxLevel);
         head.right = generate(level + 1, maxLevel);
         return head;
