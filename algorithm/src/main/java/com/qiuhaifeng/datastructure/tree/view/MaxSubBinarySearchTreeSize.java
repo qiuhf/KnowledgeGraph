@@ -63,48 +63,26 @@ public class MaxSubBinarySearchTreeSize {
 
     private static Info process(Node<Integer> head) {
         if (Objects.isNull(head)) {
-            // allSize和subMaxSize无法确定故给null
-            return null;
+            return new Info(Integer.MIN_VALUE, Integer.MAX_VALUE, 0, 0);
         }
 
         Info leftInfo = process(head.left);
         Info rightInfo = process(head.right);
 
-        int maxValue = head.value;
-        int minValue = head.value;
-        int allSize = 1;
-        int p1 = -1;
-        if (Objects.nonNull(leftInfo)) {
-            p1 = leftInfo.maxBSTSubtreeSize;
-            maxValue = Math.max(maxValue, leftInfo.maxValue);
-            minValue = Math.min(minValue, leftInfo.minValue);
-            allSize += leftInfo.allSize;
-        }
-
-        int p2 = -1;
-        if (Objects.nonNull(rightInfo)) {
-            p2 = rightInfo.maxBSTSubtreeSize;
-            maxValue = Math.max(maxValue, rightInfo.maxValue);
-            minValue = Math.min(minValue, rightInfo.minValue);
-            allSize += rightInfo.allSize;
-        }
-
-        int p3 = -1;
-        boolean leftBST = Objects.isNull(leftInfo) || (leftInfo.maxBSTSubtreeSize == leftInfo.allSize);
-        boolean rightBST = Objects.isNull(rightInfo) || (rightInfo.maxBSTSubtreeSize == rightInfo.allSize);
-        if (leftBST && rightBST) {
-            boolean leftMaxLessX = Objects.isNull(leftInfo) || (leftInfo.maxValue < head.value);
-            boolean rightMinMoreX = Objects.isNull(rightInfo) || (head.value < rightInfo.minValue);
-            if (leftMaxLessX && rightMinMoreX) {
-                int leftSize = Objects.isNull(leftInfo) ? 0 : leftInfo.allSize;
-                int rightSize = Objects.isNull(rightInfo) ? 0 : rightInfo.allSize;
-                p3 = leftSize + rightSize + 1;
+        int maxValue = Math.max(head.value, Math.max(rightInfo.maxValue, leftInfo.maxValue));
+        int minValue = Math.min(head.value, Math.min(rightInfo.minValue, leftInfo.minValue));
+        int allSize = 1 + leftInfo.allSize + rightInfo.allSize;
+        // 与头节点无关时，取左右子树中最大二叉搜索子树的大小
+        int maxBSTSubtreeSize = Math.max(leftInfo.maxBSTSubtreeSize, rightInfo.maxBSTSubtreeSize);
+        // 左右都是二叉搜索树
+        if (leftInfo.allSize == leftInfo.maxBSTSubtreeSize && rightInfo.allSize == rightInfo.maxBSTSubtreeSize) {
+            // 与头节点有关时，左子树大小 + 右子树大小 + 1
+            if (leftInfo.maxValue < head.value && head.value < rightInfo.minValue) {
+                maxBSTSubtreeSize = Math.max(leftInfo.allSize + rightInfo.allSize + 1, maxBSTSubtreeSize);
             }
         }
 
-        // 与头节点无关时，取左右子树中最大二叉搜索子树的大小
-        // 与头节点有关时，左子树大小 + 右子树大小 + 1
-        return new Info(maxValue, minValue, allSize, Math.max(p3, Math.max(p1, p2)));
+        return new Info(maxValue, minValue, allSize, maxBSTSubtreeSize);
     }
 
     @AllArgsConstructor
