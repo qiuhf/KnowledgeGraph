@@ -18,6 +18,10 @@ package com.qiuhaifeng.datastructure.tree;
 
 import com.qiuhaifeng.util.AuxiliaryUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 /**
  * <pre>B树</pre>
  *
@@ -79,5 +83,26 @@ public class Node<V> {
         head.left = generate(level + 1, maxLevel);
         head.right = generate(level + 1, maxLevel);
         return head;
+    }
+
+    /**
+     * <p>二叉树转list集合</p>
+     *
+     * @param head 头节点
+     * @return <code>List<Node></code>
+     */
+    public static List<Node> nodeToList(Node head) {
+        List<Node> list = new ArrayList<>();
+        fillPreList(head, list);
+        return list;
+    }
+
+    private static void fillPreList(Node head, List<Node> list) {
+        if (Objects.isNull(head)) {
+            return;
+        }
+        list.add(head);
+        fillPreList(head.left, list);
+        fillPreList(head.right, list);
     }
 }
