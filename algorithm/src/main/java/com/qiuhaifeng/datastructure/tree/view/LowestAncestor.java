@@ -59,7 +59,7 @@ public class LowestAncestor {
      * <p>二叉树递归套路</p>
      *
      * @param head 任意头节点
-     * @return <code>boolean</code>
+     * @return <code>Node</code>
      */
     public static Node lowestAncestor(Node head, Node a, Node b) {
         if (Objects.isNull(head)) {

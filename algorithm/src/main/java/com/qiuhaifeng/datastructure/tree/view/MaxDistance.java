@@ -54,9 +54,8 @@ public class MaxDistance {
      * <p>二叉树递归套路</p>
      *
      * @param head 任意头节点
-     * @return <code>boolean</code>
+     * @return <code>int</code>
      */
-
     public static int maxDistance(Node head) {
         return process(head).maxDistance;
     }
