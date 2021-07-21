@@ -158,16 +158,31 @@ public class AuxiliaryUtil {
     /**
      * <p>拷贝数组</p>
      *
-     * @param arr1 arr1
+     * @param ori 原数组
      * @return <code>int[]</code> 数组
      */
-    public static int[] copyArray(int[] arr1) {
-        if (Objects.isNull(arr1) || arr1.length == 0) {
+    public static int[] copyArray(int[] ori) {
+        if (Objects.isNull(ori) || ori.length == 0) {
             return null;
         }
-        int[] arr2 = new int[arr1.length];
-        System.arraycopy(arr1, 0, arr2, 0, arr1.length);
-        return arr2;
+        int[] arr = new int[ori.length];
+        System.arraycopy(ori, 0, arr, 0, ori.length);
+        return arr;
+    }
+
+    /**
+     * <p>拷贝数组</p>
+     *
+     * @param ori 原数组
+     * @return <code>String[]</code> 数组
+     */
+    public static String[] copyArray(String[] ori) {
+        if (Objects.isNull(ori) || ori.length == 0) {
+            return null;
+        }
+        String[] arr = new String[ori.length];
+        System.arraycopy(ori, 0, arr, 0, ori.length);
+        return arr;
     }
 
     /**
@@ -206,5 +221,19 @@ public class AuxiliaryUtil {
             node = node.next;
         }
         return list;
+    }
+
+    /**
+     * <p>交换元素</p>
+     *
+     * @param arr   数组
+     * @param cur   位置1
+     * @param other 位置2
+     * @param <T>   类型
+     */
+    public static <T> void swap(T[] arr, int cur, int other) {
+        T tmp = arr[cur];
+        arr[cur] = arr[other];
+        arr[other] = tmp;
     }
 }
