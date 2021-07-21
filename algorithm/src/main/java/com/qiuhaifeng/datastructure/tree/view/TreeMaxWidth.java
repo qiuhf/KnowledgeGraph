@@ -41,7 +41,7 @@ public class TreeMaxWidth {
             int ans = maxWidthUseMap(head);
             int result = maxWidthNoMap(head);
             if (ans != result) {
-                System.out.printf(Locale.ROOT, "Oops! Actual: %d, Expect: %d", result, ans);
+                System.err.printf(Locale.ROOT, "Oops! Actual: %d, Expect: %d", result, ans);
                 return;
             }
         }

@@ -57,11 +57,10 @@ public class MaxHappy {
             int result = maxHappy(boss);
             int ans = verify(boss);
             if (!Objects.equals(ans, result)) {
-                System.out.printf(Locale.ROOT, "Oops! Actual: %s, Expect: %s", result, ans);
+                System.err.printf(Locale.ROOT, "Oops! Actual: %s, Expect: %s", result, ans);
                 return;
             }
         }
-
         System.out.println("Nice!");
     }
 

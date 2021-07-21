@@ -46,7 +46,7 @@ public class SerializeBST {
             Node<Integer> posBuild = postDeserialize(postSerialize(head));
             Node<Integer> levelBuild = levelDeserialize(levelSerialize(head));
             if (!compare(preBuild, posBuild) || !compare(posBuild, levelBuild)) {
-                System.out.printf(Locale.ROOT, "Oops! level; %s\n", levelSerialize(head));
+                System.err.printf(Locale.ROOT, "Oops! level; %s\n", levelSerialize(head));
                 return;
             }
         }

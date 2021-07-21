@@ -48,7 +48,7 @@ public class LowestAncestor {
             Node result = lowestAncestor(head, a, b);
             Node ans = verify(head, a, b);
             if (!Objects.equals(ans, result)) {
-                System.out.printf(Locale.ROOT, "Oops! Actual: %s, Expect: %s", result, ans);
+                System.err.printf(Locale.ROOT, "Oops! Actual: %s, Expect: %s", result, ans);
                 return;
             }
         }

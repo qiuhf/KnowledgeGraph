@@ -41,7 +41,7 @@ public class BinarySearchTree {
             boolean ans = verify(head);
             boolean result = isBST(head);
             if (!Objects.equals(ans, result)) {
-                System.out.printf(Locale.ROOT, "Oops! Actual: %s, Expect: %s", result, ans);
+                System.err.printf(Locale.ROOT, "Oops! Actual: %s, Expect: %s", result, ans);
                 return;
             }
         }

@@ -40,7 +40,7 @@ public class BalancedBinaryTree {
             boolean result = isBalanced(head);
             boolean ans = verify(head);
             if (!Objects.equals(ans, result)) {
-                System.out.printf(Locale.ROOT, "Oops! Actual: %s, Expect: %s", result, ans);
+                System.err.printf(Locale.ROOT, "Oops! Actual: %s, Expect: %s", result, ans);
                 return;
             }
         }
