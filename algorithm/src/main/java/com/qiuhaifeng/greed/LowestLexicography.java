@@ -38,8 +38,8 @@ public class LowestLexicography {
         int testTimes = 100_000;
         for (int i = 0; i < testTimes; i++) {
             String[] arr = AuxiliaryUtil.generateRandomStringArray(range, maxLen);
-            String result = lowestString(AuxiliaryUtil.copyArray(arr));
-            String ans = verify(AuxiliaryUtil.copyArray(arr));
+            String result = lowestString(arr);
+            String ans = verify(arr);
             if (!Objects.equals(ans, result)) {
                 System.err.println("Oops! String[] arr = " + Arrays.toString(arr));
                 System.err.printf(Locale.ROOT, "Actual: %s, Expect: %s", result, ans);
