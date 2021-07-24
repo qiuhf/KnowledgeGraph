@@ -96,7 +96,7 @@ public class BestArrange {
         return ans;
     }
 
-    public static Program[] copyButExcept(Program[] programs, int cur) {
+    private static Program[] copyButExcept(Program[] programs, int cur) {
         Program[] arr = new Program[programs.length - 1];
         int index = 0;
         for (int i = 0; i < programs.length; i++) {
@@ -114,8 +114,8 @@ public class BestArrange {
         }
         Program[] programs = new Program[size];
         for (int i = 0; i < programs.length; i++) {
-            int star = (int) (Math.random() * (maxSize + 1));
-            int end = (int) (Math.random() * (maxSize + 1));
+            int star = (int) (Math.random() * (maxTime + 1));
+            int end = (int) (Math.random() * (maxTime + 1));
             if (star == end) {
                 programs[i] = new Program(star, end + 1);
             } else {
