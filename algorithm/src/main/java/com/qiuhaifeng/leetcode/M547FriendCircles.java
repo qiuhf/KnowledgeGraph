@@ -35,8 +35,8 @@ package com.qiuhaifeng.leetcode;
  *     已知学生0和学生1互为朋友，他们在一个朋友圈。
  *     第2个学生自己在一个朋友圈。所以返回2。
  *
- * 本题为lintcode原题
- * 测试链接：https://www.lintcode.com/problem/1179/
+ * 来源：本题为lintcode原题
+ * 链接：https://www.lintcode.com/problem/1179/
  * </pre>
  *
  * @author sz_qiuhf@163.com
