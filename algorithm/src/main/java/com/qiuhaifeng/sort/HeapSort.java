@@ -47,9 +47,9 @@ public class HeapSort implements ISortable {
         // 1)从上到下的方法，时间复杂度为O(N*logN)
         int heapSize = arr.length;
         // 遍历整个数组，时间复杂度：O(N)
-//        for (int i = 0; i < heapSize; i++) {
-//            heapInsert(arr, i);
-//        }
+        // for (int i = 0; i < heapSize; i++) {
+        //     heapInsert(arr, i);
+        // }
 
         // 2)从下到上的方法，时间复杂度为O(N)
         // 忽略最后一层，从倒数第二层最后一个数开始heapify
@@ -97,7 +97,7 @@ public class HeapSort implements ISortable {
      * @param heapSize 当前堆大小
      */
     private void heapify(int[] arr, int index, int heapSize) {
-        for (int left = 1 + (index << 1); left >0 && left < heapSize; left = 1 + (index << 1)) {
+        for (int left = 1 + (index << 1); left > 0 && left < heapSize; left = 1 + (index << 1)) {
             int right = left + 1;
             // 两个子节点中，谁的值大，把下标给largest
             // 1）只有左子节点，left -> largest
