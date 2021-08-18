@@ -38,7 +38,7 @@ import java.util.Locale;
  *
  *  Hints: Beware of integer overflow! Use 64-bit Integer.
  * 来源：本题为hackerrank原题
- * 链接：https://www.hackerrank.com/challenges/one-week-preparation-kit-plus-minus/problem
+ * 链接：https://www.hackerrank.com/challenges/one-week-preparation-kit-mini-max-sum/problem
  * </pre>
  *
  * @author sz_qiuhf@163.com
