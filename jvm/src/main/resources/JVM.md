@@ -2,7 +2,7 @@
 
 ## java从编码到执行
 
-![1629166214635](F:\workspace\KnowledgeGraph\jvm\src\main\resources\image\1629166214635.png)
+![FlowChart](F:\workspace\KnowledgeGraph\jvm\src\main\resources\image\FlowChart.png)
 
 1. .java 文件通过javac命令解析编译.class文件
 2. 将.class文件和java自带的 类库加载到classLoader，classLoader只 负责class文件的加载， 至于它是否可以运行，则由执行引擎决定
@@ -19,19 +19,19 @@
 
 ## JDK JRE JVM
 
-![1629169821823](F:\workspace\KnowledgeGraph\jvm\src\main\resources\image\1629169821823.png)
+![JVM-JRE-JDK](F:\workspace\KnowledgeGraph\jvm\src\main\resources\image\JVM-JRE-JDK.png)
 
 ## 类加载-初始化
 
-![1629171555921](F:\workspace\KnowledgeGraph\jvm\src\main\resources\image\1629171555921.png)
+![ClassLoader](F:\workspace\KnowledgeGraph\jvm\src\main\resources\image\ClassLoader.png)
 
 ### loading
 
  - 双亲委派, JVM按需动态加载，主要出于安全来考虑（反例如：自定义java.lang.String编译打包给客户，存在窃取客户敏感信息隐患）
 
-![1629172872286](F:\workspace\KnowledgeGraph\jvm\src\main\resources\image\1629172872286.png)
+![ParentalDelegation](F:\workspace\KnowledgeGraph\jvm\src\main\resources\image\ParentalDelegation.png)
 
-![1629174939151](F:\workspace\KnowledgeGraph\jvm\src\main\resources\image\1629174939151.png)
+![ClassLoaderFlowChart](F:\workspace\KnowledgeGraph\jvm\src\main\resources\image\ClassLoaderFlowChart.png)
 
 >class加载到内存后，同时生成class对象指向对应内存地址
 
