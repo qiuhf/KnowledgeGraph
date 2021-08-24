@@ -10,14 +10,12 @@
 
 > 任何语言只有能编译成class文件都可以在JVM执行
 
-
-
 ## JVM是一种规范
 
 -  The Java Virtual Machine Specification
 - https://docs.oracle.com/javase/specs/index.html
 
-## JDK JRE JVM
+## JDK/JRE/JVM
 
 ![JVM-JRE-JDK](F:\workspace\KnowledgeGraph\jvm\src\main\resources\image\JVM-JRE-JDK.png)
 
@@ -27,7 +25,7 @@
 
 ### loading
 
- - 双亲委派, JVM按需动态加载，主要出于安全来考虑（反例如：自定义java.lang.String编译打包给客户，存在窃取客户敏感信息隐患）
+ - 双亲委派, JVM按需动态加载，主要出于安全来考虑（如：自定义java.lang.String编译打包给客户，存在窃取客户敏感信息隐患）
 
 ![ParentalDelegation](F:\workspace\KnowledgeGraph\jvm\src\main\resources\image\ParentalDelegation.png)
 
@@ -35,7 +33,7 @@
 
 >class加载到内存后，同时生成class对象指向对应内存地址
 
-- LazyLoading 五种情况
+- JVM规范并没有规定何时加载，但是严格规定了什么时候必须初始化。LazyLoading 五种情况
 
   1）new/getstatic/putstatic/invokestatic指令，访问final变量除外
 
@@ -47,13 +45,11 @@
 
   5）动态语言支持java.lang.invoke.MethodHandle解析的结果为REF_getstatic REF_putstatic REF_invokestatic的方法句柄时，该类必须初始化
 
-  >JVM规范并没有规定何时加载，但是严格规定了什么时候必须初始化，如以上五种情况。
-
 - ClassLoader源码
 
   findInCache ->  parent.loadClass -> findClass
 
-  > 设计模式：模板方法（钩子函数）
+  > 涉及到设计模式：模板方法（钩子函数）
 
 - 如何自定义类加载器
 
@@ -114,6 +110,10 @@
 
 ​    协议很多，intel 用MESI <https://www.cnblogs.com/z00377750/p/9180644.html>
 
-​    现代CPU的数据一致性实现 = 缓存锁(MESI ...) + 总线锁，读取缓存以**cache line**为基本单位，目前**64bytes**。位于同一缓存行的两个不同数据，被两个不同CPU锁定，产生互相影响的**伪共享**问题。
+​    现代CPU的数据一致性实现 = 缓存锁(MESI ...) + 总线锁，读取缓存以**cache line**为基本单位，目前**64bytes**。
 
-> 使用缓存行的对齐能够提高效率
+> 位于同一缓存行的两个不同数据，被两个不同CPU锁定，产生互相影响的**伪共享**问题。
+
+> 使用缓存行的对齐能够提高效率，案例：
+>
+> com.lmax.disruptor.RingBuffer.RingBuffer.class
