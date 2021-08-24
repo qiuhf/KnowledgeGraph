@@ -14,10 +14,9 @@
  *  limitations under the License.
  */
 
-package com.qiuhaifeng.falsesharing;
+package com.qiuhaifeng.juc.interview.falsesharing;
 
 import com.lmax.disruptor.Sequence;
-import org.springframework.util.StopWatch;
 
 /**
  * <p>
@@ -42,19 +41,13 @@ public class CacheLinePadding {
     public static void main(String[] args) throws InterruptedException {
         long time = 100_000_000;
 
-        StopWatch watch = new StopWatch("伪共享测试..");
-        watch.start("对齐");
-        align(time);
-        watch.stop();
-
-        watch.start("不对齐");
-        notAligned(time);
-        watch.stop();
-
-        System.out.println(watch.prettyPrint());
+        System.out.println("伪共享测试...");
+        System.out.println("Align duration (ns)     = " + align(time));
+        System.out.println("Not align duration (ns) = " + notAligned(time));
     }
 
-    private static void align(long time) throws InterruptedException {
+    private static long align(long time) throws InterruptedException {
+        long start = System.nanoTime();
         Thread t1 = new Thread(() -> {
             for (long i = 0; i < time; i++) {
                 values[0].value = i;
@@ -72,9 +65,11 @@ public class CacheLinePadding {
         t2.start();
         t1.join();
         t2.join();
+        return System.nanoTime() - start;
     }
 
-    private static void notAligned(long time) throws InterruptedException {
+    private static long notAligned(long time) throws InterruptedException {
+        long start = System.nanoTime();
         Thread t1 = new Thread(() -> {
             for (long i = 0; i < time; i++) {
                 data[0].p = i;
@@ -91,22 +86,22 @@ public class CacheLinePadding {
         t2.start();
         t1.join();
         t2.join();
+        return System.nanoTime() - start;
     }
 
-
-    static class Data {
+    private static class Data {
         private volatile long p = 0L;
     }
 
-    static class LPadding {
+    private static class LPadding {
         private long p1, p2, p3, p4, p5, p6, p7;
     }
 
-    static class Value extends LPadding {
+    private static class Value extends LPadding {
         private volatile long value = 0L;
     }
 
-    static class RPadding extends Value {
+    private static class RPadding extends Value {
         private long p9, p10, p11, p12, p13, p14, p15;
     }
 }
