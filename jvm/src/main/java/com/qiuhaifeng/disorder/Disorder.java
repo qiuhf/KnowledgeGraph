@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.qiuhaifeng.juc.interview.disorder;
+package com.qiuhaifeng.disorder;
 
 /**
  * <pre>
@@ -59,7 +59,6 @@ public class Disorder {
             }
         }
     }
-
 
     private static void shortWait(long interval) {
         long start = System.nanoTime();
